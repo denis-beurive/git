@@ -135,6 +135,15 @@ Check the tags on the remote:
 
     git ls-remote --tags
 
+## Remove a file from the (remote) repository
+
+The command below removes files on the (remote) repository only.
+It does not remove the file from the local filesystem.
+
+    git rm --cached /path/to/the/file 
+    git commit -m "remove /path/to/the/file"
+    git push -u origin master
+
 ## Create a repository on the GIT server (which may be localhost)
 
     $ cd /opt/git
