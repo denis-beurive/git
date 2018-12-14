@@ -72,6 +72,8 @@ Il you need to unset/remove a configuration paramter:
 
 # Troubleshooting
 
+## Activate the debug output
+
 If you have a problem while performing a GIT command, you can try this commands:
 
     GIT_TRACE=2 git push --verbose -u origin master
@@ -80,11 +82,15 @@ Or, even better:
 
     GIT_CURL_VERBOSE=1 GIT_TRACE=1 git push -u origin master
 
+## Did you get this error ? "error: failed to push some refs to..."
+
+You probably need to commit something.
+
 # Useful commands
 
 ## Inject the modifications into the repository
 
-        git push -u origin master
+    git push -u origin master
 
 ## Add all modified files to the staging area
 
