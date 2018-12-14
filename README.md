@@ -158,5 +158,7 @@ It does not remove the file from the local filesystem.
     $ git --bare init
 
 
+# Good links
 
+* [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
 
