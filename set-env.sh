@@ -29,7 +29,6 @@ function github_init {
     local -r USER_ID="${GITHUB_USER_ID}"
     local -r USER_EMAIL="${GITHUB_USER_EMAIL}"
 
-    echo "---"
     echo "host:       ${REPO_HOST}"
     echo "user:       ${USER_ID}"
     echo "email:      ${USER_EMAIL}"
