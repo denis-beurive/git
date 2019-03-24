@@ -35,8 +35,6 @@ function github_init {
     echo "repository: ${REPO_NAME}"
     echo
 
-    return
-
     set -e
     git init
     git remote add origin git@${REPO_HOST}:${USER_ID}/${REPO_NAME}.git
