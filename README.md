@@ -157,6 +157,31 @@ It does not remove the file from the local filesystem.
     $ cd projet.git
     $ git --bare init
 
+## Create a new branch
+
+    $ git checkout -b refactoring
+    Switched to a new branch 'refactoring'
+
+    $ git branch
+      master
+    * refactoring
+
+## Push the branch
+
+    $ git push origin refactoring
+
+## Merge the branch
+
+    $ git branch
+      master
+    * refactoring
+    
+    $ git checkout master
+    Switched to branch 'master'
+    
+    $ git merge refactoring
+
+    & git push origin master
 
 # Good links
 
