@@ -183,6 +183,26 @@ It does not remove the file from the local filesystem.
 
     & git push origin master
 
+## Delete a local branch
+
+First, make sure that the branch has been merged:
+
+    git branch --merged
+
+Then, you can delete it:
+
+    git branch -d refactoring
+
+## Delete a remote branch
+
+First, make sure that the remote branch has been merged:
+
+    git branch -r merged
+
+Then, you can delete it:
+
+    git push origin --delete refactoring
+
 # Good links
 
 * [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
