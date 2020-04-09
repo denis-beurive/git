@@ -203,6 +203,10 @@ Then, you can delete it:
 
     git push origin --delete refactoring
 
+## Save authentication parameters
+
+    git config credential.helper store
+
 # Good links
 
 * [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
