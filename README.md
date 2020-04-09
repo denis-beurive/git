@@ -207,6 +207,12 @@ Then, you can delete it:
 
     git config credential.helper store
 
+## Force the update of the local repository
+
+The following command will force the update of the local repository:
+
+    git fetch --all && git reset --hard origin/master
+
 # Good links
 
 * [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
