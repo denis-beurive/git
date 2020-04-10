@@ -213,6 +213,28 @@ The following command will force the update of the local repository:
 
     git fetch --all && git reset --hard origin/master
 
+## Check a .gitignore file
+
+Assuming that you have the following `.gitignore` file:
+
+    .gradle/
+    build/
+    libs/
+    .idea/
+    lib/
+
+Then, you can make sure that a particular entry (file or directory) is ignored:
+
+    $ git check-ignore -v */lib
+    .gitignore:5:lib/   app-cbc-des/lib
+    .gitignore:5:lib/   app-cfb-des/lib
+
+## Global .gitignore
+
+You can create a `.gitignore` file that will apply for all your projects:
+
+    git config --global core.excludesFile ~/.gitignore
+
 # Good links
 
 * [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
