@@ -207,6 +207,14 @@ Then, you can delete it:
 
     git config credential.helper store
 
+or:
+
+    git config --global credential.helper store
+
+For a session only:
+
+    git config --global credential.helper cache
+
 ## Force the update of the local repository
 
 The following command will force the update of the local repository:
