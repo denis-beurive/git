@@ -247,3 +247,15 @@ You can create a `.gitignore` file that will apply for all your projects:
 
 * [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
 
+## See all commits
+
+    git log --pretty="%cd %H"
+
+## Checout a specific commit
+
+    git checkout <commit SHA>
+
+For example:
+
+    git checkout b928950669f5da9414000de50c3a3ba7f7be7597
+
