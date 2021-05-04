@@ -46,8 +46,37 @@ Run the command below:
 
     $ ssh -T git@personal.github.com
     Hi your-login-1! You've successfully authenticated, but GitHub does not provide shell access.
+
     $ ssh -T git@profesional.github.com
     Hi your-login-2! You've successfully authenticated, but GitHub does not provide shell access.
+
+> If you need to check the repository configuration: `git config -l`
+
+## SSH troubleshouting
+
+Here are some useful commands.
+
+Check the fingerprint of an SSH key:
+
+    $ sh-keygen -l -E sha256 -f $SSH_KEY_FILE
+
+> You can make sure that the private SSH you have matches to the public key you uploaded on GitHub.
+
+Load the private keys into the SSH user agent:
+
+    $ ssh-add
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    Permissions 0644 for '/home/denis/.ssh/id_rsa' are too open.
+    It is required that your private key files are NOT accessible by others.
+    This private key will be ignored.
+
+> If you get this error message, then you know that the permissions for the directory `.ssh` are not valid. You must have `-rw-------` for all files within the `.ssh` directory. And, for the `.ssh` directory, the permissions must be `drwx------`.
+
+Print the list of loaded private keys:
+
+    $ ssh-add -l
 
 # Configuring a repository
 
@@ -69,6 +98,9 @@ Il you need to unset/remove a configuration paramter:
 
     $ git config --unset user.email your-login-1@domain.com
     $ git remote rm origin
+
+
+    $ git remote set-url origin git@personal.github.com:denis-beurive/git.git
 
 # Troubleshooting
 
