@@ -99,8 +99,11 @@ Il you need to unset/remove a configuration paramter:
     $ git config --unset user.email your-login-1@domain.com
     $ git remote rm origin
 
+If you need to change the origin URL:
 
-    $ git remote set-url origin git@personal.github.com:denis-beurive/git.git
+    $ git remote set-url origin git@personal.github.com:your-login-1/your-repository.git
+
+> This command may be useful depending on your GitHub account settings.
 
 # Troubleshooting
 
