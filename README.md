@@ -148,9 +148,21 @@ You probably need to commit something.
     git mv foldername tempname && git mv tempname folderName
     git mv Entrypoints tempname && git mv tempname EntryPoints
 
-## Print the LOG
+## Print the LOG (print commits)
 
     git log --pretty="%h %an %ae"
+
+Add color and filter on commits auther:
+
+    git log --stat --pretty=format:"%C(#ff69b4)#####> %h - %an, %ar :%C(reset)%n%n%C(#FFFF00)%s%c(Reset)%n%n%b" --author="Denis BEURIVE"
+
+> Please note that you may need to use `git fetch` first.
+
+## Print the changed applied on a specific commit
+
+    $ git diff <commit SHA>
+
+> Please note that you may need to use `git fetch` first.
 
 ## Print the remote configuration
 
@@ -216,7 +228,7 @@ It does not remove the file from the local filesystem.
     
     $ git merge refactoring
 
-    & git push origin master
+    $ git push origin master
 
 ## Delete a local branch
 
@@ -278,15 +290,56 @@ You can create a `.gitignore` file that will apply for all your projects:
 
     git config --global core.excludesFile ~/.gitignore
 
-# Good links
+## Import the branch metadata only (do not merge)
 
-* [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
+For a single branch:
 
-## See all commits
+    git fetch
 
-    git log --pretty="%cd %H"
+For all branches:
 
-## Checout a specific commit
+    git fetch --all
+
+or, which is equivalent:
+
+    git remote update
+
+**Note**:
+
+Once the local repository has been updated/fetched, we can compare the local branch with the remote one:
+
+    git diff main origin/main  # git diff main @{upstream}
+
+> `git diff` only relies on local (downloaded) data.
+
+## Print details about a specific commit
+
+    git show <commit SHA>
+
+Example:
+
+    $ git log  --pretty=format:"%C(#ff69b4)#> %h %s"
+    #> 8699120 Edit file2 for the first time
+    #> faf7388 Create file2. This message has been modified.
+    #> 50659dc Create file1. This message has been modified.
+    #> 9fb518b first commit
+
+    $ git show faf7388
+    commit faf7388eec0e94f601a2af506dfea81ca60c31e4
+    Author: Denis BEURIVE <dbeurive@protonmail.com>
+    Date:   Thu May 6 11:46:00 2021 +0200
+
+        Create file2. This message has been modified.
+
+    diff --git a/file2 b/file2
+    new file mode 100644
+    index 0000000..e69de29
+ 
+If you need to show the last commit:
+
+    git show HEAD
+
+## Checkout a specific commit
 
     git checkout <commit SHA>
 
@@ -294,3 +347,73 @@ For example:
 
     git checkout b928950669f5da9414000de50c3a3ba7f7be7597
 
+## Set specific editor for interactive oprations
+
+    git config --global core.editor "/home/denis/Documents/softwares/sublime_text_3/sublime_text -n -w"
+
+> Source: [Git Tips #2 - Change editor for interactive Git rebase](https://www.kevinkuszyk.com/2016/03/08/git-tips-2-change-editor-for-interactive-git-rebase/)
+
+## Change commits messages
+
+In order to change commits, you use the command `rebase`.
+
+    $ git log  --pretty=format:"%C(#ff69b4)#> %h %s"
+    #> b34a05c Edit file2 for the first time
+    #> 174f7f2 Create file2
+    #> c4fb274 Create file1
+    #> 9fb518b first commit
+
+Let's say that you want to change the messages for the commits `174f7f2` and `c4fb274`. Then you need to consider the 3 last commits.
+
+> Please note that a all commits you want to edit must have a parent commit. This means that, in our example, the commit `9fb518b` cannot be edited.
+
+    COMMITS_COUNT=3
+    git rebase -i HEAD~${COMMITS_COUNT}
+
+> Please note that the command below may be useful to find out the value of COMMITS_COUNT: `max=$(echo "$(git log --pretty=format:"#> %h")" | wc -l) && echo "max=${max}"`
+
+Then GIT will open the editor you configured and ask you to modify the printed text. For example:
+
+    pick c4fb274 Create file1
+    pick 174f7f2 Create file2
+    pick b34a05c Edit file2 for the first time
+
+    # Rebasage de 9fb518b..b34a05c sur 9fb518b (3 commandes)
+    #
+    # Commandes :
+    #  p, pick <commit> = utiliser le commit
+    #  r, reword <commit> = utiliser le commit, mais reformuler son message
+    # ...
+
+Then for `174f7f2` and `c4fb274`, change "`pick`" to "`reword`". That is:
+
+    reword c4fb274 Create file1
+    reword 174f7f2 Create file2
+    pick b34a05c Edit file2 for the first time
+
+Close the editor and follow the instructions... At the end, you get:
+
+    $ git rebase -i HEAD~3
+    [HEAD détachée 50659dc] Create file1. This message has been modified.
+     Date: Thu May 6 11:03:45 2021 +0200
+     1 file changed, 1 insertion(+)
+     create mode 100644 file1
+    [HEAD détachée faf7388] Create file2. This message has been modified.
+     Date: Thu May 6 11:46:00 2021 +0200
+     1 file changed, 0 insertions(+), 0 deletions(-)
+     create mode 100644 file2
+    Rebasage et mise à jour de refs/heads/main avec succès.
+
+And:
+
+    $ git log --pretty=format:"#> %h %s"
+    #> 8699120 Edit file2 for the first time
+    #> faf7388 Create file2. This message has been modified.
+    #> 50659dc Create file1. This message has been modified.
+    #> 9fb518b first commit
+
+> Please note that the commits SHA have been modified.
+
+# Good links
+
+* [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
