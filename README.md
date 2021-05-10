@@ -414,6 +414,31 @@ And:
 
 > Please note that the commits SHA have been modified.
 
+# Override a branch by another branch
+
+Let's say that you want to _completely override_ the remote branch "`issue135`" by the local branch "`issue135-clean`".
+
+    $ git branch
+    * master
+      issue135-clean
+
+Pull the branch "`issue135-clean`":
+
+    $ git checkout issue135-clean
+
+Rename the current branch (that is "`issue135-clean`") into "`issue135`":
+
+    $ git branch -m issue135
+    $ git branch
+    * issue135
+      master
+
+Then push (from now on) the branch "`issue135`":
+
+    $ git push -f origin issue135
+
+> Please note the use of the option `-f` (force).
+
 # Good links
 
 * [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
