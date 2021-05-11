@@ -463,7 +463,7 @@ Then push (from now on) the branch "`issue135`":
 |-----------------------------|------------------------------------|-----------------------
 | `git add <file>`            | `git reset <file>`                 |                      |
 | `git commit`                | `git commit --amend`               | The last commit only |
-| `git stash`                 | `git stash pop`, `git stash apply` |                      |
+| `git stash`                 | `git stash pop`                    |                      |
 
 # Good links
 
