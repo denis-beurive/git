@@ -318,11 +318,11 @@ Once the local repository has been updated/fetched, we can compare the local bra
 
 Example:
 
-    $ git log  --pretty=format:"%C(#ff69b4)#> %h %s"
-    #> 8699120 Edit file2 for the first time
-    #> faf7388 Create file2. This message has been modified.
-    #> 50659dc Create file1. This message has been modified.
-    #> 9fb518b first commit
+    $ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
+    8699120 Edit file2 for the first time
+    faf7388 Create file2. This message has been modified.
+    50659dc Create file1. This message has been modified.
+    9fb518b first commit
 
     $ git show faf7388
     commit faf7388eec0e94f601a2af506dfea81ca60c31e4
@@ -357,11 +357,11 @@ For example:
 
 In order to change commits, you use the command `rebase`.
 
-    $ git log  --pretty=format:"%C(#ff69b4)#> %h %s"
-    #> b34a05c Edit file2 for the first time
-    #> 174f7f2 Create file2
-    #> c4fb274 Create file1
-    #> 9fb518b first commit
+    $ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
+    b34a05c Edit file2 for the first time
+    174f7f2 Create file2
+    c4fb274 Create file1
+    9fb518b first commit
 
 Let's say that you want to change the messages for the commits `174f7f2` and `c4fb274`. Then you need to consider the 3 last commits.
 
@@ -459,11 +459,15 @@ Then push (from now on) the branch "`issue135`":
 
 # Quick "do / undo"
 
-| Do                          | Undo                               | Note                 |
-|-----------------------------|------------------------------------|-----------------------
-| `git add <file>`            | `git reset <file>`                 |                      |
-| `git commit`                | `git commit --amend`               | The last commit only |
-| `git stash`                 | `git stash pop`                    |                      |
+| Do                          | Undo                               | Note                                             | Examples                         |
+|-----------------------------|------------------------------------|--------------------------------------------------|----------------------------------|
+| `git add <file>`            | `git reset <file>`                 |                                                  |                                  |
+| `git commit`                | `git commit --amend`               | Change message for the last commit only          |                                  |
+| `git commit`                | `git reset --soft HEAD~1`          | Undo last commit, but preserve changes           |                                  |
+| `git commit`                | `git reset --hard HEAD~1`          | Undo last commit, but **discard changes**!       |                                  |
+| multiple `git commit`       | `git reset --soft <commit sha>`    | Undo multiple commits, but preserve changes      | [ex](examples/git-reset-soft.md) |
+| multiple `git commit`       | `git reset --hard <commit sha>`    | Undo multiple commits, but **discard changes**!  |                                  |
+| `git stash`                 | `git stash pop`                    |                                                  |                                  |
 
 # Good links
 
