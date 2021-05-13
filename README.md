@@ -414,24 +414,6 @@ And:
 
 > Please note that the commits SHA have been modified.
 
-# Remove commits using non-interactive rebase
-
-    $ git log  --pretty=format:"%C(#ff69b4)#> %h%C(Reset) %s" | perl -e '$n = 1; while (<STDIN>) { printf("%d %s", $n++, $_) } print "\n"'
-    1 #> 932e552 Create file3
-    2 #> 0f8caa7 Merge branch 'main' of personal.github.com:denis-beurive/git-tester into main
-    3 #> 8699120 Edit file2 for the first time
-    4 #> faf7388 Create file2. This message has been modified.
-    5 #> 50659dc Create file1. This message has been modified.
-    6 #> b34a05c Edit file2 for the first time
-    7 #> 174f7f2 Create file2
-    8 #> c4fb274 Create file1
-    9 #> 9fb518b first commit
-
-Let's say that we want to remove the commits `0f8caa7` (2), `8699120` (3) and `b34a05c` (6).
-
-With `rebase` we can remove consecutive commits. Thus, to remove these 3 commits, we have to issue 2 `rebase` commands.
-
-
 # Override a branch by another branch
 
 Let's say that you want to _completely override_ the remote branch "`issue135`" by the local branch "`issue135-clean`".
@@ -459,15 +441,16 @@ Then push (from now on) the branch "`issue135`":
 
 # Quick "do / undo"
 
-| Do                          | Undo                               | Note                                             | Examples                         |
-|-----------------------------|------------------------------------|--------------------------------------------------|----------------------------------|
-| `git add <file>`            | `git reset <file>`                 |                                                  |                                  |
-| `git commit`                | `git commit --amend`               | Change message for the last commit only          |                                  |
-| `git commit`                | `git reset --soft HEAD~1`          | Undo last commit, but preserve changes           |                                  |
-| `git commit`                | `git reset --hard HEAD~1`          | Undo last commit, but **discard changes**!       |                                  |
-| multiple `git commit`       | `git reset --soft <commit sha>`    | Undo multiple commits, but preserve changes      | [ex](examples/git-reset-soft.md) |
-| multiple `git commit`       | `git reset --hard <commit sha>`    | Undo multiple commits, but **discard changes**!  |                                  |
-| `git stash`                 | `git stash pop`                    |                                                  |                                  |
+| Do                              | Undo                               | Note                                             | Examples                         |
+|---------------------------------|------------------------------------|--------------------------------------------------|----------------------------------|
+| `git add <file>`                | `git reset <file>`                 |                                                  |                                  |
+| `git commit`                    | `git commit --amend`               | Change message for the last commit only          |                                  |
+| `git commit`                    | `git reset --soft HEAD~1`          | Undo last commit, but preserve changes           |                                  |
+| `git commit`                    | `git reset --hard HEAD~1`          | Undo last commit, but **discard changes**!       |                                  |
+| multiple `git commit`           | `git reset --soft <commit sha>`    | Undo multiple commits, but preserve changes      | [ex](examples/git-reset-soft.md) |
+| multiple `git commit`           | `git reset --hard <commit sha>`    | Undo multiple commits, but **discard changes**!  | [ex](examples/git-reset-hard.md) |
+| `git reset --soft <commit sha>` | `git reset 'HEAD@{1}'`             |                                                  | [ex](examples/git-reset-head.md) |
+| `git stash`                     | `git stash pop`                    |                                                  |                                  |
 
 # Good links
 
