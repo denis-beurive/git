@@ -451,6 +451,7 @@ Then push (from now on) the branch "`issue135`":
 | multiple `git commit`           | `git reset --hard <commit sha>`    | Undo multiple commits, but **discard changes**!  | [ex](examples/git-reset-hard.md) |
 | `git reset --soft <commit sha>` | `git reset 'HEAD@{1}'`             |                                                  | [ex](examples/git-reset-head.md) |
 | `git stash`                     | `git stash pop`                    |                                                  |                                  |
+| `git merge`                     | `git merge --abort`                | If you cannot merge...                           |                                  |
 
 # Good links
 
