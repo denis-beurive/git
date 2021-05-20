@@ -414,7 +414,9 @@ And:
 
 > Please note that the commits SHA have been modified.
 
-# Override a branch by another branch
+# Override branches
+
+## Override a REMOTE branch by LOCAL branch
 
 Let's say that you want to _completely override_ the remote branch "`issue135`" by the local branch "`issue135-clean`".
 
@@ -422,7 +424,7 @@ Let's say that you want to _completely override_ the remote branch "`issue135`" 
     * master
       issue135-clean
 
-Pull the branch "`issue135-clean`":
+Checkout the branch "`issue135-clean`":
 
     $ git checkout issue135-clean
 
@@ -438,6 +440,20 @@ Then push (from now on) the branch "`issue135`":
     $ git push -f origin issue135
 
 > Please note the use of the option `-f` (force).
+
+## Override a LOCAL branch by REMOTE branch
+
+Let's say that you want to _completely override_ the local branch "`issue135`" by the remote branch "`issue135`".
+
+    $ git branch
+    * issue135
+      master
+
+    $ git fetch --all
+
+    $ git reset --hard origin/issue135
+
+> **WARINING**: all modifications made on the local branch will be lost!
 
 # Quick "do / undo"
 
