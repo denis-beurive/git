@@ -162,7 +162,7 @@ Add the file(s) associated with the commits (add option `--name-only`):
 
     $ git log --pretty=format:"%C(green)%h%C(Reset) %s" --name-only
 
-Add the name of the commits authors (add "`%an`"):
+Add the names of the commits authors (add "`%an`"):
 
     $ git log --pretty=format:"%C(green)%h%C(Reset) %C(red)%an%C(Reset) %s%n%aD" --name-only
 
