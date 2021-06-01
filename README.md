@@ -152,11 +152,19 @@ You probably need to commit something.
 
     git log --pretty="%h %an %ae"
 
-Add color and filter on commits auther:
+Add color and filter on commits author:
 
     git log --stat --pretty=format:"%C(#ff69b4)#####> %h - %an, %ar :%C(reset)%n%n%C(#FFFF00)%s%c(Reset)%n%n%b" --author="Denis BEURIVE"
 
 > Please note that you may need to use `git fetch` first.
+
+Add the file(s) associated with the commits (add option `--name-only`):
+
+    $ git log --pretty=format:"%C(green)%h%C(Reset) %s" --name-only
+
+Add the name of the commits authors (add "`%an`"):
+
+    $ git log --pretty=format:"%C(green)%h%C(Reset) %C(red)%an%C(Reset) %s%n%aD" --name-only
 
 ## Print the changed applied on a specific commit
 
@@ -473,6 +481,11 @@ Let's say that you want to _completely override_ the local branch "`issue135`" b
 | `git stash`                                              | `git stash pop`                               |                                                  |                                  |
 | `git merge`                                              | `git merge --abort`                           | If you cannot merge...                           |                                  |
 | You modify a file... but you want to discard all changes | `git restore -s origin/<branch> -- <file>`    | Get the file from a remote branch                |                                  |
+
+
+# Rebase
+
+This is a long story... [see here](rebase.md).
 
 # Good links
 
