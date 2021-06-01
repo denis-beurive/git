@@ -351,6 +351,10 @@ For example:
 
     git config --global core.editor "/home/denis/Documents/softwares/sublime_text_3/sublime_text -n -w"
 
+Or, for version 4 of Sublime Text:
+
+    git config --global core.editor "/usr/bin/subl -n -w"
+
 > Source: [Git Tips #2 - Change editor for interactive Git rebase](https://www.kevinkuszyk.com/2016/03/08/git-tips-2-change-editor-for-interactive-git-rebase/)
 
 ## Change commits messages
