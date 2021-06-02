@@ -165,9 +165,10 @@ This should be read:
 
 > or `git rebase --onto <new parent> <old parent>`.
 
+Will remove commits included in the interval `]<new parent>, <last commit to remove>]`.
+
 ![](images/git-rebase-onto-1.png)
 
-Will remove commits included in the interval `]<new parent>, <last commit to remove>]`.
 
 That is: it will remove all commits within the interval from `8bc7df3`
 (exclusive) to `20d2b8c` (inclusive). That is: `]8bc7df3, 20d2b8c]`.
