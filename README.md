@@ -493,8 +493,17 @@ Let's say that you want to _completely override_ the local branch "`issue135`" b
 
 # Rebase
 
-This is a long story... [see here](rebase.md).
+## Work with branches
 
-# Good links
+![](images/git-rebase-1-brief.png)
 
-* [Git de l'intérieur](https://alm.developpez.com/tutoriel/fonctionnement-interne-de-git/)
+## Work with commits
+
+![](images/git-rebase-onto-2-2-brief.png)
+
+If the last parameter is not specified, then its value is `HEAD`.
+
+![](images/git-rebase-onto-2-1-brief.png)
+
+The long story... [see here](rebase.md).
+
