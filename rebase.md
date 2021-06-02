@@ -6,9 +6,13 @@
 
 ### First form: git rebase <new parent>
 
-We have to branches: `master` and `rebase`. `rebase` is based on `master`.
+We have to branches:
+* `master`
+* `rebase`
 
-	$ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
+With the following commit histories for branches `master` and `rebase`:
+
+	$ git log --pretty=format:"%C(green)%h%C(Reset) %s"
 
 | master                                    | rebase                                   |
 |-------------------------------------------|------------------------------------------|
@@ -22,12 +26,12 @@ We have to branches: `master` and `rebase`. `rebase` is based on `master`.
 
 We want to **re-base** the branch `rebase`.
 
-What we plan to do:
+What we plan to do is:
 
-* we will change the commit history of the branch `rebase`.
-* we want to add the history [`3995d9a`, `7b7855a`] of `master` to the history of `rebase`.
+* change the commit history of the branch `rebase`.
+* add the history [`3995d9a`, `7b7855a`] of `master` to the history of `rebase`.
 
-We want to have the following history (on `feature`):
+In orther words, we want to have the following history (on `rebase`):
 
 	af1f3df Document print_version()
 	628589b Add the function print_version()
@@ -38,7 +42,11 @@ We want to have the following history (on `feature`):
 	9e31a77 First import
 	87d762b initial commit
 
-**NOTE**: Please note that we create a new branch `rebase` because we want to keep the branch `feature` intact for later experiments...
+Proceed to `git checkout <new parent>`.
+
+![](images/git-rebase-1.png)
+
+> The important point here is that we move on branch `rebase`.
 
 	$ git checkout rebase
 	Basculement sur la nouvelle branche 'rebase'
@@ -56,75 +64,72 @@ We resolve the conflict. Then we add the fixed file to the stage and we continue
 	 1 file changed, 3 insertions(+)
 	Rebasage et mise à jour de refs/heads/rebase avec succès.
 
-And, finally, the desired result is obtained:
+The histories are now:
 
-	$ git branch
-	  master
-	* rebase
-
-	$ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
-	9bd55eb Document print_version()
-	e142988 Add the function print_version()
-	3995d9a Document print_result()
-	7b7855a Add the function print_result()
-	8bc7df3 Document calc()
-	6c99621 Document init_matrix()
-	9e31a77 First import
-	87d762b initial commit
+| master                                    | rebase                                     |
+|-------------------------------------------|--------------------------------------------|
+|                                           | _a711c3e Document print_version()_         |
+|                                           | _49394ec Add the function print_version()_ |
+| _3995d9a Document print_result()_         | _3995d9a Document print_result()_          |
+| _7b7855a Add the function print_result()_ | _7b7855a Add the function print_result()_  |
+| --                                        | --                                         |
+| 8bc7df3 Document calc()                   | 8bc7df3 Document calc()                    |
+| 6c99621 Document init_matrix()            | 6c99621 Document init_matrix()             |
+| 9e31a77 First import                      | 9e31a77 First import                       |
+| 87d762b initial commit                    | 87d762b initial commit    
 
 ### Second form: git rebase <new parent> <branch>
 
 > This form is equivalent to the first one (`git rebase <new parent>`) if you are on branch `branch`.
 
-We have to branches: `master` and `rebase`. `rebase` is based on `master`.
+We have 3 branches:
+* `master`
+* `rebase`
+* `other-branch`
+
+> Please note that the branch `other-branch` is not important. It only will be used to run
+> the _rebase_ command from.
+
+With the following commit histories for branches `master` and `rebase`:
 
 	$ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
 
-| master                                    | rebase                                   |
-|-------------------------------------------|------------------------------------------|
+| master                                    | rebase                                     |
+|-------------------------------------------|--------------------------------------------|
 | _3995d9a Document print_result()_         | _af1f3df Document print_version()_         |
 | _7b7855a Add the function print_result()_ | _628589b Add the function print_version()_ |
-| --                                        | --                                       |
-| 8bc7df3 Document calc()                   | 8bc7df3 Document calc()                  |
-| 6c99621 Document init_matrix()            | 6c99621 Document init_matrix()           |
-| 9e31a77 First import                      | 9e31a77 First import                     |
-| 87d762b initial commit                    | 87d762b initial commit                   |
+| --                                        | --                                         |
+| 8bc7df3 Document calc()                   | 8bc7df3 Document calc()                    |
+| 6c99621 Document init_matrix()            | 6c99621 Document init_matrix()             |
+| 9e31a77 First import                      | 9e31a77 First import                       |
+| 87d762b initial commit                    | 87d762b initial commit                     |
 
-	$ git checkout rebase
-	Basculement sur la nouvelle branche 'rebase-bis'
+Proceed `git rebase <new parent> <branch>`:
 
-	$ git checkout -b other-branch
-	Basculement sur la nouvelle branche 'other-branch'
+![](images/git-rebase-2.png)
 
-We are on the branch `other-branch`.
+> The important point here is that we are **NOT** on the branch `rebase`.
+
+	$ git checkout other-branch
+  Basculement sur la branche 'other-branch'
 
 	$ git rebase master rebase
-	...
-	impossible d'appliquer 628589b... Add the function print_version()
+	Rebasage et mise à jour de refs/heads/rebase avec succès.
 
-There is a conflict. Fix it and continue the rebase:
+The histores are now:
 
-	$ git add bin/calculator.py 
+| master                                    | rebase                                     |
+|-------------------------------------------|--------------------------------------------|
+|                                           | _a711c3e Document print_version()_         |
+|                                           | _49394ec Add the function print_version()_ |
+| _3995d9a Document print_result()_         | _3995d9a Document print_result()_          |
+| _7b7855a Add the function print_result()_ | _7b7855a Add the function print_result()_  |
+| --                                        | --                                         |
+| 8bc7df3 Document calc()                   | 8bc7df3 Document calc()                    |
+| 6c99621 Document init_matrix()            | 6c99621 Document init_matrix()             |
+| 9e31a77 First import                      | 9e31a77 First import                       |
+| 87d762b initial commit                    | 87d762b initial commit                     |
 
-	$ git rebase --continue
-	[HEAD détachée 21944e7] Add the function print_version()
-	 1 file changed, 3 insertions(+)
-	Rebasage et mise à jour de refs/heads/rebase-bis avec succès.
-
-Now, let's look at the branch `other-branch` commit hictory:
-
-	$ git branch && git log  --pretty=format:"%C(green)%h%C(Reset) %s"
-	  master
-	* other-branch
-	  rebase
-	2656d64 Document print_version()
-	21944e7 Add the function print_version()
-	3995d9a Document print_result()
-	7b7855a Add the function print_result()
-	8bc7df3 Document calc()
-	6c99621 Document init_matrix()
-	9e31a77 First import
-	87d762b initial commit
 
 ## Git rebase --onto
 
@@ -179,7 +184,7 @@ That is the expected result.
 
 ### Second form: Git rebase --onto <new parent> <old parent> <new head>
 
-From the branch `test-branch`:
+Commit history:
 
 	$ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
 	724a030 Add the sub-version tag
@@ -205,15 +210,11 @@ This should be read:
 
 ![](images/git-rebase-onto-2.png)
 
-Fix the conflicts...
-
 	$ git branch
 	* (HEAD détachée depuis 0ed68e9)
 	  feature
 	  master
-	  new-branch
 	  rebase
-	  test-branch
 
 	$ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
 	cd48c63 Fix the version tag
@@ -228,9 +229,9 @@ Fix the conflicts...
 
 Create a new branch:
 
-	$ git branch new-production
+	$ git branch new-branch
 
-	$ git checkout branch
+	$ git checkout new-branch
 
 	$ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
 	cd48c63 Fix the version tag
