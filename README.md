@@ -123,6 +123,28 @@ You probably need to commit something.
 
 # Useful commands
 
+## Use of --procelain
+
+### Add all modified files to the staging area
+
+    git status --porcelain | egrep '^ M ' | sed --expression='s/^ M //' | xargs -n1 git add
+
+> Same as `git add --all`
+
+### Commit all staged files
+
+    git status --porcelain | egrep '^M  ' | sed --expression='s/^M  //' |  xargs -n1 git commit -m "Your message"
+
+> Will generate as many commits as files (this is not equivalent to a single `git commit`).
+
+### Commit all the modification at once
+
+    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; $_ =~ s/^ *(M|A|D|R|C|U) //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
+
+    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *M /) { next; }; $_ =~ s/^ *M //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
+
+    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *D /) { next; }; $_ =~ s/^ *D //; push(@lines, $_); } print join(" ", @lines);' > delete.sh
+
 ## Make an initial empty commit
 
     git commit --allow-empty -m "initial commit"
@@ -134,22 +156,6 @@ You probably need to commit something.
 ## Inject the modifications into the repository
 
     git push -u origin master
-
-## Add all modified files to the staging area
-
-	git status --porcelain | egrep '^ M ' | sed --expression='s/^ M //' | xargs -n1 git add
-
-## Commit all staged files
-
-	git status --porcelain | egrep '^M  ' | sed --expression='s/^M  //' |  xargs -n1 git commit -m "Your message"
-
-## Commit all the modification at once
-
-    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; $_ =~ s/^ *(M|A|D|R|C|U) //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
-
-    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *M /) { next; }; $_ =~ s/^ *M //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
-
-    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *D /) { next; }; $_ =~ s/^ *D //; push(@lines, $_); } print join(" ", @lines);' > delete.sh
 
 ## Change the case
 
@@ -229,11 +235,19 @@ It does not remove the file from the local filesystem.
       master
     * refactoring
 
-## Push the branch
+## Push a branch
+
+### Secure
 
     $ git push origin refactoring
 
-## Merge the branch
+### Unsecure
+
+The following replaces the remote branch by the local one, no matter the context:
+
+    $ git push -f origin refactoring    
+
+## Merge a branch
 
     $ git branch
       master
@@ -248,6 +262,8 @@ It does not remove the file from the local filesystem.
 
 ## Delete a local branch
 
+### Secure
+
 First, make sure that the branch has been merged:
 
     git branch --merged
@@ -255,6 +271,12 @@ First, make sure that the branch has been merged:
 Then, you can delete it:
 
     git branch -d refactoring
+
+### Unsecure
+
+The following command deletes the branch, no matter its state:
+
+    git branch -D refactoring
 
 ## Delete a remote branch
 
@@ -280,8 +302,9 @@ For a session only:
 
 ## Force the update of the local repository
 
-The following command will force the update of the local repository:
+The following command will force the update of the local branch `master`:
 
+    git checkout master
     git fetch --all && git reset --hard origin/master
 
 ## Check a .gitignore file
@@ -310,6 +333,7 @@ You can create a `.gitignore` file that will apply for all your projects:
 
 For a single branch:
 
+    git checkout <your branch>
     git fetch
 
 For all branches:
@@ -334,7 +358,7 @@ Once the local repository has been updated/fetched, we can compare the local bra
 
 Example:
 
-    $ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
+    $ git log --pretty=format:"%C(green)%h%C(Reset) %s"
     8699120 Edit file2 for the first time
     faf7388 Create file2. This message has been modified.
     50659dc Create file1. This message has been modified.
@@ -365,6 +389,8 @@ For example:
 
 ## Set specific editor for interactive oprations
 
+for version 3 of Sublime Text:
+
     git config --global core.editor "/home/denis/Documents/softwares/sublime_text_3/sublime_text -n -w"
 
 Or, for version 4 of Sublime Text:
@@ -372,6 +398,12 @@ Or, for version 4 of Sublime Text:
     git config --global core.editor "/usr/bin/subl -n -w"
 
 > Source: [Git Tips #2 - Change editor for interactive Git rebase](https://www.kevinkuszyk.com/2016/03/08/git-tips-2-change-editor-for-interactive-git-rebase/)
+
+## Test if a local repository is up to data
+
+    git fetch --dry-run
+
+> Git "fetch" Downloads commits, objects and refs from another repository. It fetches branches and tags from one or more repositories. 
 
 ## Change commits messages
 
@@ -434,9 +466,9 @@ And:
 
 > Please note that the commits SHA have been modified.
 
-# Override branches
+## Override branches
 
-## Override a REMOTE branch by LOCAL branch
+### Override a REMOTE branch by LOCAL branch
 
 Let's say that you want to _completely override_ the remote branch "`issue135`" by the local branch "`issue135-clean`".
 
@@ -461,7 +493,7 @@ Then push (from now on) the branch "`issue135`":
 
 > Please note the use of the option `-f` (force).
 
-## Override a LOCAL branch by REMOTE branch
+### Override a LOCAL branch by REMOTE branch
 
 Let's say that you want to _completely override_ the local branch "`issue135`" by the remote branch "`issue135`".
 
