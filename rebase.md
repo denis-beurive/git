@@ -111,7 +111,7 @@ Proceed `git rebase <new parent> <branch>`:
 > The important point here is that we are **NOT** on the branch `rebase`.
 
 	$ git checkout other-branch
-  Basculement sur la branche 'other-branch'
+	Basculement sur la branche 'other-branch'
 
 	$ git rebase master rebase
 	Rebasage et mise à jour de refs/heads/rebase avec succès.
@@ -133,7 +133,7 @@ The histores are now:
 
 ## Git rebase --onto
 
-### First form: Git rebase --onto <new parent> <old parent>
+### First form: Git rebase --onto \<new parent\> \<old parent\>
 
 Commit history:
 
@@ -182,7 +182,7 @@ That is: it will remove all commits within the interval from `8bc7df3`
 
 That is the expected result.
 
-### Second form: Git rebase --onto <new parent> <old parent> <new head>
+### Second form: Git rebase --onto \<new parent\> \<old parent\> \<new head\>
 
 Commit history:
 
