@@ -123,6 +123,14 @@ You probably need to commit something.
 
 # Useful commands
 
+## Make an initial empty commit
+
+    git commit --allow-empty -m "initial commit"
+
+> Please note:
+>
+> Git represents branches as pointers to the latest commit in that branch. If you haven't created a commit yet, there's nothing for that branch to point to. So you can't really create branches until you have at least one commit [source](https://stackoverflow.com/questions/5678699/creating-branches-on-an-empty-project-in-git/5678812).
+
 ## Inject the modifications into the repository
 
     git push -u origin master
