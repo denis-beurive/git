@@ -4,7 +4,7 @@
 	       <=> change the base
 	       <=> set a new "parent" (inherit from another branch)
 
-### First form: git rebase <new parent>
+### First form: git rebase \<new parent\>
 
 We have to branches:
 * `master`
@@ -78,7 +78,7 @@ The histories are now:
 | 9e31a77 First import                      | 9e31a77 First import                       |
 | 87d762b initial commit                    | 87d762b initial commit    
 
-### Second form: git rebase <new parent> <branch>
+### Second form: git rebase \<new parent\> \<branch\>
 
 > This form is equivalent to the first one (`git rebase <new parent>`) if you are on branch `branch`.
 
