@@ -542,8 +542,8 @@ Delete a configuration:
 
 Set a configuration:
 
-    UPSTREAM_URL=https://your.origin.repository.url
-    git remote add origin ${UPSTREAM_URL}
+    ORIGIN_URL=https://your.origin.repository.url
+    git remote add origin ${ORIGIN_URL}
     git config --get-regexp remote.origin.*
 
     UPSTREAM_URL=https://your.upstream.repository.url
