@@ -623,7 +623,14 @@ If the last parameter is not specified, then its value is `HEAD`.
 
 The long story... [see here](rebase.md).
 
-# Tips
+## Tips and tricks during rebase
+
+Show the SHA of the commit that is being the source of a conflict:
+
+    $ git rebase --show-current-patch | head -n 1
+    commit 3959352cdef7d3b458c4278d859a79203f101e93
+
+# GIT general tips
 
 ## Add branch name to Bash prompt
 
