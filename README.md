@@ -506,6 +506,50 @@ Let's say that you want to _completely override_ the local branch "`issue135`" b
 
 > **WARINING**: all modifications made on the local branch will be lost!
 
+# "origin" vs "upstream"
+
+![](images/origin-vs-upstream.png)
+
+From this [excellent explenation](https://stackoverflow.com/questions/9257533/what-is-the-difference-between-origin-and-upstream-on-github):
+
+The difference between `upstream` and `origin` should be understood in the context of GitHub forks
+(where you fork a GitHub repository on GitHub before cloning that fork locally).
+
+* `upstream` generally refers to the original repository that you have forked.
+* `origin` is your fork: your own repository on GitHub, clone of the original repository of GitHub.
+
+> Please note that these names are conventions, simple alias. You can use other names as long as you know what they mean.
+
+Print your configuration:
+
+    $ git config --get-regexp remote.origin.*
+    remote.origin.url https://...
+    remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+
+    $ git config --get-regexp remote.upstream.*
+    remote.upstream.url https://...
+    remote.upstream.fetch +refs/heads/*:refs/remotes/upstream/*
+
+Delete a configuration:
+
+    git config --unset remote.origin.url
+    git config --unset remote.origin.fetch
+    git config --get-regexp remote.origin.*
+
+    git config --unset remote.upstream.url
+    git config --unset remote.upstream.fetch
+    git config --get-regexp remote.upstream.*
+
+Set a configuration:
+
+    UPSTREAM_URL=https://your.origin.repository.url
+    git remote add origin ${UPSTREAM_URL}
+    git config --get-regexp remote.origin.*
+
+    UPSTREAM_URL=https://your.upstream.repository.url
+    git remote add upstream ${UPSTREAM_URL}
+    git config --get-regexp remote.upstream.*
+
 # Quick "do / undo"
 
 | Do                                                       | Undo                                          | Note                                             | Examples                         |
@@ -520,7 +564,6 @@ Let's say that you want to _completely override_ the local branch "`issue135`" b
 | `git stash`                                              | `git stash pop`                               |                                                  |                                  |
 | `git merge`                                              | `git merge --abort`                           | If you cannot merge...                           |                                  |
 | You modify a file... but you want to discard all changes | `git restore -s origin/<branch> -- <file>`    | Get the file from a remote branch                |                                  |
-
 
 # Rebase
 
