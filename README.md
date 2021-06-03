@@ -550,7 +550,7 @@ Add this in your file `.bashrc`:
 
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]`parse_git_branch`\[\033[0m\]\$ '
 
-> The important poit here is ``\[\033[01;33m\]`parse_git_branch`\[\033[0m\]``.
+> The important point here is ``\[\033[01;33m\]`parse_git_branch`\[\033[0m\]``.
 >
 > [Good link](https://superuser.com/questions/382456/why-does-this-bash-prompt-sometimes-keep-part-of-previous-commands-when-scrollin) in case you have a problem with the colors.
 >
