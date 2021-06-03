@@ -598,7 +598,7 @@ We do:
 > * we are on `branch1`.
 > * We modify `branch1`.
 > * We try to append commits from `branch2` to `branch1`.
-    Thus, **`HEAD` _always_ refers to **a commit** of `branch2`**.
+    Thus, **`HEAD` _always_ refers to **a commit** from `branch2`**.
 
 In a nutshell:
 
@@ -635,6 +635,9 @@ We need to choose which commit we want to keep: the one from `branch1` ? Or the 
 
 ## Work with branches
 
+
+Will remove commits included in the interval `]<new parent>, <last commit to remove>]`.
+
 Ideal arrangement (no conflict):
 
 ![](images/git-rebase-1-brief.png)
@@ -645,9 +648,17 @@ However, be aware that conflicts may disturb this ideal arrangement.
 
 ## Work with commits
 
+    git rebase --onto <new parent> <last commit to remove> <new head>
+
+> or `git rebase --onto <new parent> <old parent> <new head>`.
+
 ![](images/git-rebase-onto-2-2-brief.png)
 
 If the last parameter is not specified, then its value is `HEAD`.
+
+    git rebase --onto <new parent> <last commit to remove>
+
+> or `git rebase --onto <new parent> <old parent>`.
 
 ![](images/git-rebase-onto-2-1-brief.png)
 
