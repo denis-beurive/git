@@ -300,12 +300,13 @@ For a session only:
 
     git config --global credential.helper cache
 
-## Force the update of the local repository
+## Force the update of the local branch from the remote one
 
 The following command will force the update of the local branch `master`:
 
     git checkout master
-    git fetch --all && git reset --hard origin/master
+    git fetch
+    git reset --hard origin/master
 
 ## Check a .gitignore file
 
@@ -348,9 +349,7 @@ or, which is equivalent:
 
 Once the local repository has been updated/fetched, we can compare the local branch with the remote one:
 
-    git diff main origin/main  # git diff main @{upstream}
-
-> `git diff` only relies on local (downloaded) data.
+    git diff <your branch> origin/<your branch>  # or: git diff main @{upstream}
 
 ## Print details about a specific commit
 
