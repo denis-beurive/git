@@ -566,6 +566,32 @@ Now, you can push the downloaded modifications to your distant forked repository
 
 Now, your _forked project repository_ is synchronized with the _official project repository_.
 
+# Reading git conflict
+
+In a nutshell:
+
+    <<<<<<< HEAD:...
+    The content of the current branch.
+    =======
+    The content of the branch to rebase/merge (into the current branch).
+    >>>>>>> 3959352...
+
+If you do:
+
+    git checkout feature
+    git rebase master
+
+> We are _rebasing_ `master` into `feature`.
+
+Then:
+
+* the current branch is `feature`.
+* the branch to rebase/merge (into the current branch `feature`) is `master`.
+
+When you see "_Resove using ours_", it means "_Resolve using the content of the current branch_" (so, with what's in between "`<<<<<<<`" and "`=======`").
+
+When you see "_Resove using theirs_", it means "_Resolve using the content of the branch to merge_" (so, with what's in between "`=======`" and "`>>>>>>>`").
+
 # Quick "do / undo"
 
 | Do                                                       | Undo                                          | Note                                             | Examples                         |
