@@ -558,6 +558,8 @@ If you want to update you local branch from "upstream" (the _official project re
     git fetch upstream
     git pull upstream master
 
+> You can also override your local branch: `git reset --hard upstream/master` (see [here](https://stackoverflow.com/questions/15432052/what-is-the-meaning-of-git-reset-hard-origin-master/15432250))
+
 Now, you can push the downloaded modifications to your distant forked repository:
 
     git push origin master
