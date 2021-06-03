@@ -164,6 +164,8 @@ You probably need to commit something.
 
 ## Print the LOG (print commits)
 
+### For the current branch
+
     git log --pretty="%h %an %ae"
 
 Add color and filter on commits author:
@@ -180,7 +182,25 @@ Add the names of the commits authors (add "`%an`"):
 
     $ git log --pretty=format:"%C(green)%h%C(Reset) %C(red)%an%C(Reset) %s%n%aD" --name-only
 
-## Print the changed applied on a specific commit
+### For another branch
+
+Just specify the name of the branch:
+
+    git log --pretty=format:"%ct %h %s" feature
+
+### For a set of branches
+
+Just specify the names of the branches:
+
+    $ git log --pretty=format:"%ct %h %s" feature master
+    1622741213 2778ac8 3. edit from master
+    1622741170 a38453b 2. edit from feature
+    1622741110 a53d88c 1. edit from master
+    1622741055 bfb5b09 initial commit
+
+> The cool thing is that the commits are chronologically sorted.
+
+## Print the changed applied to a specific commit
 
     $ git diff <commit SHA>
 
@@ -568,29 +588,33 @@ Now, your _forked project repository_ is synchronized with the _official project
 
 # Reading git conflict
 
+## Rebase
+
+We do:
+
+    git checkout branch1
+    git rebase branch2
+
+> * we are on `branch1`.
+> * We modify `branch1`.
+> * We try to append commits from `branch2` to `branch1`.
+    Thus, **`HEAD` _always_ refers to **a commit** of `branch2`**.
+
 In a nutshell:
 
     <<<<<<< HEAD:...
-    The content of the current branch.
+    The content of branch2.
     =======
-    The content of the branch to rebase/merge (into the current branch).
+    The content of branch1 (which history is appended).
     >>>>>>> 3959352...
 
-If you do:
+![](images/git-rebase-conflict.png)
 
-    git checkout feature
-    git rebase master
+We try to append a commit from `branch2` to the `HEAD`. But there is a copnflict.
+We need to choose which commit we want to keep: the one from `branch1` ? Or the one from `branch2` (`HEAD`) ?
 
-> We are _rebasing_ `master` into `feature`.
-
-Then:
-
-* the current branch is `feature`.
-* the branch to rebase/merge (into the current branch `feature`) is `master`.
-
-When you see "_Resove using ours_", it means "_Resolve using the content of the current branch_" (so, with what's in between "`<<<<<<<`" and "`=======`").
-
-When you see "_Resove using theirs_", it means "_Resolve using the content of the branch to merge_" (so, with what's in between "`=======`" and "`>>>>>>>`").
+* When you see "_Resove using ours_", "ours" refers to `HEAD` (so, with what's in between "`<<<<<<<`" and "`=======`").
+* When you see "_Resove using theirs_", "theirs" refers to _the commit to append_ (so, with what's in between "`=======`" and "`>>>>>>>`").
 
 # Quick "do / undo"
 
@@ -611,7 +635,13 @@ When you see "_Resove using theirs_", it means "_Resolve using the content of th
 
 ## Work with branches
 
+Ideal arrangement (no conflict):
+
 ![](images/git-rebase-1-brief.png)
+
+However, be aware that conflicts may disturb this ideal arrangement.
+
+![](images/git-rebase-conflict.png)
 
 ## Work with commits
 
