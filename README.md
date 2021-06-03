@@ -550,6 +550,20 @@ Set a configuration:
     git remote add upstream ${UPSTREAM_URL}
     git config --get-regexp remote.upstream.*
 
+**Quick note: synchronising local/remote repositories**
+
+If you want to update you local branch from "upstream" (the _official project repository_ that you forked):
+
+    git checkout master
+    git fetch upstream
+    git pull upstream master
+
+Now, you can push the downloaded modifications to your distant forked repository:
+
+    git push origin master
+
+Now, your _forked project repository_ is synchronized with the _official project repository_.
+
 # Quick "do / undo"
 
 | Do                                                       | Undo                                          | Note                                             | Examples                         |
