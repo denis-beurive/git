@@ -597,35 +597,45 @@ Now, you can push the downloaded modifications to your distant forked repository
 
 Now, your _forked project repository_ is synchronized with the _official project repository_.
 
-# Reading git conflict
+# Reading git conflict. What is "yours" and "theirs" ?
+
+Official explanation: [HOW CONFLICTS ARE PRESENTED](https://git-scm.com/docs/git-merge#_how_conflicts_are_presented)
+
+In a nutshell:
+
+    <<<<<<< yours:sample.txt
+    Conflict resolution is hard;
+    let's go shopping.
+    =======
+    Git makes conflict resolution easy.
+    >>>>>>> theirs:sample.txt
 
 ## Rebase
 
 We do:
 
-    git checkout branch1
-    git rebase branch2
+    git checkout their-modifications-branch
+    git rebase your-modifications-branch
 
-> * we are on `branch1`.
-> * We modify `branch1`.
-> * We try to append commits from `branch2` to `branch1`.
-    Thus, **`HEAD` _always_ refers to **a commit** from `branch2`**.
+**Vocabulary**: we say that `their-modifications-branch` is _rebased onto_ `your-modifications-branch` ([source](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)).
 
-In a nutshell:
+> * we are on `their-modifications-branch`.
+> * We modify `their-modifications-branch`.
+> * `HEAD` _always_ refers to a commit _coming from_ `your-modifications-branch`.
+>
+> The names of the branches in this example are not necessarily appropriate, relatively to the context.
+> That is, depending on _who_ is doing the _rebase_ (relatively to the modifications author).
+> That's why it can be confusing.
+
+Thus:
 
     <<<<<<< HEAD:...
-    The content of branch2.
+    Your modifications.
     =======
-    The content of branch1 (which history is appended).
+    Their modifications.
     >>>>>>> 3959352...
 
 ![](images/git-rebase-conflict.png)
-
-We try to append a commit from `branch2` to the `HEAD`. But there is a copnflict.
-We need to choose which commit we want to keep: the one from `branch1` ? Or the one from `branch2` (`HEAD`) ?
-
-* When you see "_Resove using ours_", "ours" refers to `HEAD` (so, with what's in between "`<<<<<<<`" and "`=======`").
-* When you see "_Resove using theirs_", "theirs" refers to _the commit to append_ (so, with what's in between "`=======`" and "`>>>>>>>`").
 
 # Quick "do / undo"
 
@@ -646,12 +656,13 @@ We need to choose which commit we want to keep: the one from `branch1` ? Or the 
 
 ## Work with branches
 
-
 Will remove commits included in the interval `]<new parent>, <last commit to remove>]`.
 
 Ideal arrangement (no conflict):
 
 ![](images/git-rebase-1-brief.png)
+
+> **Vocabulary**: we say that `master` is _rebased onto_ `feature` ([source](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)).
 
 However, be aware that conflicts may disturb this ideal arrangement.
 
