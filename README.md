@@ -182,6 +182,17 @@ Add the names of the commits authors (add "`%an`"):
 
     $ git log --pretty=format:"%C(green)%h%C(Reset) %C(red)%an%C(Reset) %s%n%aD" --name-only
 
+This command may be useful to compare commits histories between branches:
+
+    git log  --pretty=format:"%C(green)%h%C(Reset) %ai <%an> %s" | head -n 20 | less --chop-long-lines
+
+> You have:
+> * the commit (sha) tag.
+> * the date.
+> * the author.
+> * the message.
+> * terminal word wrap is disabled.
+
 ### For another branch
 
 Just specify the name of the branch:
