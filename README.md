@@ -404,6 +404,10 @@ Example:
     diff --git a/file2 b/file2
     new file mode 100644
     index 0000000..e69de29
+
+If you are just interested by the files associated with thus commit:
+
+    git show --pretty="" --name-only <commit SHA>
  
 If you need to show the last commit:
 
@@ -713,4 +717,30 @@ Add this in your file `.bashrc`:
 > * [Bash Shell PS1: 10 Examples to Make Your Linux Prompt like Angelina Jolie](https://www.thegeekstuff.com/2008/09/bash-shell-ps1-10-examples-to-make-your-linux-prompt-like-angelina-jolie/)
 > * [Bash tips: Colors and formatting (ANSI/VT100 Control sequences)](https://misc.flogisoft.com/bash/tip_colors_and_formatting)
 
+## Find the commits that are in a branch, but not in another one
+
+Find the commit that are in `BRANCH1` but not in `BRANCH2`
+
+    BRANCH1="master"
+    BRANCH2="feature"
+
+    diff <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH1}) <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH2}) | grep '^<'    | sed 's|^< ||'
+
+Then you can get the list of files that were modified in these commits:
+
+    diff <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH1}) <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH2}) | grep '^<'    | sed 's|^< ||' | while read -r line; do id=$(echo "$line" | cut -d' ' -f1); echo "${id}:"; git show --pretty="" --name-only $id | awk '{ print "    - " $0 }'; done
+
+Files that changed (for example):
+
+    af61421:
+        - file1.py
+        - README.md
+    def5ecc:
+        - file2.py
+    a5cb58f:
+        - file3.py
+    f7c0627:
+        - file4.py
+    e3f7c76:
+        - file5.py
 
