@@ -747,12 +747,12 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 
     $ git show 3959352 --summary
     commit 3959352cdef7d3b458c4278d859a79203f101e93
-    Author: Denis Beurivé <dbeurive@stamus-networks.com>
+    Author: Denis Beurivé <dbeurive@protonmail.com>
     Date:   Fri May 28 17:57:27 2021 +0200
 
-        postproc: break the huge "postproc.host_id" module into smaller modules (within a package).
+        The commit message.
         
-        Ref: #135
+        Ref: #123
 
      create mode 100644 __init__.py
      create mode 100644 file1.py
