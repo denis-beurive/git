@@ -405,7 +405,7 @@ Example:
     new file mode 100644
     index 0000000..e69de29
 
-If you are just interested by the files associated with thus commit:
+If you are just interested by the files associated with a commit:
 
     git show --pretty="" --name-only <commit SHA>
  
@@ -717,6 +717,23 @@ Add this in your file `.bashrc`:
 > * [Bash Shell PS1: 10 Examples to Make Your Linux Prompt like Angelina Jolie](https://www.thegeekstuff.com/2008/09/bash-shell-ps1-10-examples-to-make-your-linux-prompt-like-angelina-jolie/)
 > * [Bash tips: Colors and formatting (ANSI/VT100 Control sequences)](https://misc.flogisoft.com/bash/tip_colors_and_formatting)
 
+## Read a "rebase" conflict message
+
+    $ git checkout feature
+    $ git rebase master
+    Fusion automatique de path/to/file
+    CONFLIT (contenu) : Conflit de fusion dans path/to/file
+    error: impossible d'appliquer 3959352... the commit message...
+    Resolve all conflicts manually, mark them as resolved with
+    "git add/rm <conflicted_files>", then run "git rebase --continue".
+    You can instead skip this commit: run "git rebase --skip".
+    To abort and get back to the state before "git rebase", run "git rebase --abort".
+    impossible d'appliquer 3959352... the commit message...
+
+You are applying the commit `3959352` (from master) to the `HEAD` of `feature`:
+
+    master/3959352 ---> HEAD/feature
+
 ## Find the commits that are in a branch, but not in another one
 
 Find the commit that are in `BRANCH1` but not in `BRANCH2`
@@ -726,21 +743,24 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 
     diff <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH1}) <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH2}) | grep '^<'    | sed 's|^< ||'
 
-Then you can get the list of files that were modified in these commits:
+## Show what has been done to files on a specific commit
 
-    diff <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH1}) <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH2}) | grep '^<'    | sed 's|^< ||' | while read -r line; do id=$(echo "$line" | cut -d' ' -f1); echo "${id}:"; git show --pretty="" --name-only $id | awk '{ print "    - " $0 }'; done
+    $ git show 3959352 --summary
+    commit 3959352cdef7d3b458c4278d859a79203f101e93
+    Author: Denis Beurivé <dbeurive@stamus-networks.com>
+    Date:   Fri May 28 17:57:27 2021 +0200
 
-Files that changed (for example):
+        postproc: break the huge "postproc.host_id" module into smaller modules (within a package).
+        
+        Ref: #135
 
-    af61421:
-        - file1.py
-        - README.md
-    def5ecc:
-        - file2.py
-    a5cb58f:
-        - file3.py
-    f7c0627:
-        - file4.py
-    e3f7c76:
-        - file5.py
+     create mode 100644 __init__.py
+     create mode 100644 file1.py
+     create mode 100644 file2.py
+     create mode 100644 file3.py
+     rename postproc/{file4.py => file5.py} (57%)
+     create mode 100644 file6.py
+
+> The line `rename postproc/{file4.py => file5.py} (57%)` indicates that a file has been **split**. **You should be VERY careful**: you cannot rely on GOT to show you what changed between the two commits! You must look at the code very carefully.
+
 
