@@ -761,6 +761,6 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
      rename postproc/{file4.py => file5.py} (57%)
      create mode 100644 file6.py
 
-> The line `rename postproc/{file4.py => file5.py} (57%)` indicates that a file has been **split**. **You should be VERY careful**: you cannot rely on GOT to show you what changed between the two commits! You must look at the code very carefully.
+> The line `rename postproc/{file4.py => file5.py} (57%)` indicates that a file has been **split**. **You should be VERY careful**: you cannot rely on GIT to show you what changed between the two commits! You must look at the code very carefully.
 
 
