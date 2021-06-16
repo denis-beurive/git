@@ -763,4 +763,6 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 
 > The line `rename postproc/{file4.py => file5.py} (57%)` indicates that a file has been **split**. **You should be VERY careful**: you cannot rely on GIT to show you what changed between the two commits! You must look at the code very carefully.
 
+## Print only the files that have been modified by commits
 
+    git log --pretty=format:"%h" | head -n 10 | xargs -I % sh -c 'echo "### %"; echo "$(git show --pretty='' --name-only %)"'
