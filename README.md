@@ -500,6 +500,42 @@ And:
 
 > Please note that the commits SHA have been modified.
 
+## Change a commit "content"
+
+Please note that by "content" we mean "what has been done in the source code".
+
+Let's say that you want to modify the commit which ID is `c4fb274`.
+
+    git rebase --interactive 'c4fb274^'
+
+Then GIT will open the editor you configured and ask you to modify the printed text. For example:
+
+    ...
+    pick c4fb274 Create file1
+    pick 174f7f2 Create file2
+    ...
+
+Replace `pick` by `edit` on the line that contains the ID `c4fb274`. 
+
+    ...
+    edit c4fb274 Create file1
+    pick 174f7f2 Create file2
+    ...
+
+Then close the editor.
+
+Modify the code.
+
+When you've done, then commit the modifications:
+
+    git commit --all --amend --no-edit
+
+And continue the `rebase`:
+
+    git rebase --continue
+
+> Details [here](https://stackoverflow.com/questions/1186535/how-to-modify-a-specified-commit).
+
 ## Override branches
 
 ### Override a REMOTE branch by LOCAL branch
