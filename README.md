@@ -802,3 +802,10 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 ## Print only the files that have been modified by commits
 
     git log --pretty=format:"%h" | head -n 10 | xargs -I % sh -c 'echo "### %"; echo "$(git show --pretty='' --name-only %)"'
+
+## Useful aliases
+
+    # git log <short>
+    alias gls='git log --pretty=format:"%C(green)%h%C(Reset) %s"'
+
+
