@@ -510,14 +510,14 @@ Let's say that you want to modify the commit which ID is `c4fb274`.
 
 Then GIT will open the editor you configured and ask you to modify the printed text. For example:
 
-    ...
     pick c4fb274 Create file1
     pick 174f7f2 Create file2
     ...
 
+> Please note: the commit you selected (`c4fb274`) is at the **top** of the list.
+
 Replace `pick` by `edit` on the line that contains the ID `c4fb274`. 
 
-    ...
     edit c4fb274 Create file1
     pick 174f7f2 Create file2
     ...
