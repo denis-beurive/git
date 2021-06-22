@@ -176,11 +176,11 @@ Add color and filter on commits author:
 
 Add the file(s) associated with the commits (add option `--name-only`):
 
-    $ git log --pretty=format:"%C(green)%h%C(Reset) %s" --name-only
+    git log --pretty=format:"%C(green)%h%C(Reset) %s" --name-only
 
 Add the names of the commits authors (add "`%an`"):
 
-    $ git log --pretty=format:"%C(green)%h%C(Reset) %C(red)%an%C(Reset) %s%n%aD" --name-only
+    git log --pretty=format:"%C(green)%h%C(Reset) %C(red)%an%C(Reset) %s%n%aD" --name-only
 
 This command may be useful to compare commits histories between branches:
 
@@ -192,6 +192,18 @@ This command may be useful to compare commits histories between branches:
 > * the author.
 > * the message.
 > * terminal word wrap is disabled.
+
+This command add numerotation:
+
+    git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
+
+Example:
+
+    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}' | head -n 4
+    HEAD~1 697c643 message1
+    HEAD~2 85fe2df message2
+    HEAD~3 4e3b991 message3
+    HEAD~4 0386a8f message4
 
 ### For another branch
 
@@ -439,102 +451,125 @@ Or, for version 4 of Sublime Text:
 
 > Git "fetch" Downloads commits, objects and refs from another repository. It fetches branches and tags from one or more repositories. 
 
-## Change commits messages
+## Changing history
 
-In order to change commits, you use the command `rebase`.
+### Change commits messages (reword)
 
-    $ git log  --pretty=format:"%C(green)%h%C(Reset) %s"
-    b34a05c Edit file2 for the first time
-    174f7f2 Create file2
-    c4fb274 Create file1
-    9fb518b first commit
+Let's say that we have this history:
 
-Let's say that you want to change the messages for the commits `174f7f2` and `c4fb274`. Then you need to consider the 3 last commits.
+    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
+    HEAD~1 8ddbc63 Add new doc
+    HEAD~2 2f8b16c Add doc
+    HEAD~3 609ad8a generate conflicts with feature
+    HEAD~4 c39b623 This is the new message.
+    HEAD~5 6ff4a8f first import
+    HEAD~6 14bd895 initial commit
 
-> Please note that a all commits you want to edit must have a parent commit. This means that, in our example, the commit `9fb518b` cannot be edited.
+We want to modify the following commit messages: `2f8b16c` (`HEAD~2`) and `c39b623` (`HEAD~4`).
 
-    COMMITS_COUNT=3
-    git rebase -i HEAD~${COMMITS_COUNT}
+> Please note that a all commits you want to edit **must have a parent commit**. This means that, in our example, the commit `14bd895` cannot be edited.
 
-> Please note that the command below may be useful to find out the value of COMMITS_COUNT: `max=$(echo "$(git log --pretty=format:"#> %h")" | wc -l) && echo "max=${max}"`
+Type the following command:
 
-Then GIT will open the editor you configured and ask you to modify the printed text. For example:
+    git rebase --interactive HEAD~4
 
-    pick c4fb274 Create file1
-    pick 174f7f2 Create file2
-    pick b34a05c Edit file2 for the first time
+GIT will open the editor you configured and ask you to modify the printed text. For example:
 
-    # Rebasage de 9fb518b..b34a05c sur 9fb518b (3 commandes)
+    pick c39b623 This is the new message.
+    pick 609ad8a generate conflicts with feature
+    pick 2f8b16c Add doc
+    pick 8ddbc63 Add new doc
+
+    # Rebasage de 6ff4a8f..8ddbc63 sur 8ddbc63 (4 commandes)
     #
     # Commandes :
     #  p, pick <commit> = utiliser le commit
     #  r, reword <commit> = utiliser le commit, mais reformuler son message
-    # ...
+    #  e, edit <commit> = utiliser le commit, mais s'arrêter pour le modifier
 
-Then for `174f7f2` and `c4fb274`, change "`pick`" to "`reword`". That is:
+Then for `c39b623` and `2f8b16c`, change "`pick`" to "`reword`". That is:
 
-    reword c4fb274 Create file1
-    reword 174f7f2 Create file2
-    pick b34a05c Edit file2 for the first time
+    reword c39b623 This is the new message.
+    pick 609ad8a generate conflicts with feature
+    reword 2f8b16c Add doc
+    pick 8ddbc63 Add new doc
 
-Close the editor and follow the instructions... At the end, you get:
+Close the editor and follow the instructions...
 
-    $ git rebase -i HEAD~3
-    [HEAD détachée 50659dc] Create file1. This message has been modified.
-     Date: Thu May 6 11:03:45 2021 +0200
-     1 file changed, 1 insertion(+)
-     create mode 100644 file1
-    [HEAD détachée faf7388] Create file2. This message has been modified.
-     Date: Thu May 6 11:46:00 2021 +0200
-     1 file changed, 0 insertions(+), 0 deletions(-)
-     create mode 100644 file2
-    Rebasage et mise à jour de refs/heads/main avec succès.
+At the end:
 
-And:
-
-    $ git log --pretty=format:"#> %h %s"
-    #> 8699120 Edit file2 for the first time
-    #> faf7388 Create file2. This message has been modified.
-    #> 50659dc Create file1. This message has been modified.
-    #> 9fb518b first commit
+    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
+    HEAD~1 2e1b9ed Add new doc
+    HEAD~2 686a257 Add doc. Mes message for 6ff4a8f.
+    HEAD~3 29519fe generate conflicts with feature
+    HEAD~4 fb3f4ba This is the new message. New message for 6ff4a8f.
+    HEAD~5 6ff4a8f first import
+    HEAD~6 14bd895 initial commit
 
 > Please note that the commits SHA have been modified.
 
-## Change a commit "content"
+### Change commits "content" (and messages) (edit)
 
 Please note that by "content" we mean "what has been done in the source code".
 
-Let's say that you want to modify the commit which ID is `c4fb274`.
+Let's say that we have this history:
 
-    git rebase --interactive 'c4fb274^'
+    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
+    HEAD~1 5f8bfa4 Add new doc
+    HEAD~2 5b8fa8f Add doc
+    HEAD~3 ade9bf4 generate conflicts with feature
+    HEAD~4 6ff4a8f first import
+    HEAD~5 14bd895 initial commit
 
-Then GIT will open the editor you configured and ask you to modify the printed text. For example:
+We want to modify the following commits: `5b8fa8f` (`HEAD~2`) and `6ff4a8f` (`HEAD~4`).
 
-    pick c4fb274 Create file1
-    pick 174f7f2 Create file2
-    ...
+> Please note that a all commits you want to edit **must have a parent commit**. This means that, in our example, the commit `14bd895` cannot be edited.
 
-> Please note: the commit you selected (`c4fb274`) is at the **top** of the list.
+Type the following command:
 
-Replace `pick` by `edit` on the line that contains the ID `c4fb274`. 
+    git rebase --interactive HEAD~4
 
-    edit c4fb274 Create file1
-    pick 174f7f2 Create file2
-    ...
+GIT will open the editor you configured and ask you to modify the printed text. For example:
+
+    pick 6ff4a8f first import
+    pick ade9bf4 generate conflicts with feature
+    pick 5b8fa8f Add doc
+    pick 5f8bfa4 Add new doc
+
+    # Rebasage de 14bd895..5f8bfa4 sur 5f8bfa4 (4 commandes)
+    #
+    # Commandes :
+    #  p, pick <commit> = utiliser le commit
+    #  r, reword <commit> = utiliser le commit, mais reformuler son message
+    #  e, edit <commit> = utiliser le commit, mais s'arrêter pour le modifier
+
+Replace `pick` by `edit` on the lines that contains the IDs `6ff4a8f` and `5b8fa8f`.
+
+    edit 6ff4a8f first import
+    pick ade9bf4 generate conflicts with feature
+    edit 5b8fa8f Add doc
+    pick 5f8bfa4 Add new doc
 
 Then close the editor.
 
 Modify the code.
 
-When you've done, then commit the modifications:
+When you've done, then commit the modifications.
 
-    git commit --all --amend --no-edit
+Please note that you can change the commit message or not:
+
+* If you don't want to change the commit message, use the following commands: `git commit --all --amend --no-edit`.
+* If you want to change the commit message, use the following command: `git commit --all`.
+
+> See [--all](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--a) and [--amend --no-edit](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---no-edit).
 
 And continue the `rebase`:
 
     git rebase --continue
 
-> Details [here](https://stackoverflow.com/questions/1186535/how-to-modify-a-specified-commit).
+Then proceed for the second commit...
+
+> Please note that the commits SHA have been modified.
 
 ## Override branches
 
@@ -802,6 +837,10 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 ## Print only the files that have been modified by commits
 
     git log --pretty=format:"%h" | head -n 10 | xargs -I % sh -c 'echo "### %"; echo "$(git show --pretty='' --name-only %)"'
+
+## Print the files in conflict
+
+    git diff --name-only --diff-filter=U
 
 ## Useful aliases
 
