@@ -847,4 +847,5 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
     # git log <short>
     alias gls='git log --pretty=format:"%C(green)%h%C(Reset) %s"'
 
-
+    # git log <short> with numeratation
+    alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR \" \" \$s}"'
