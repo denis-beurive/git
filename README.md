@@ -457,17 +457,20 @@ Or, for version 4 of Sublime Text:
 
 Let's say that we have this history:
 
-    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
-    HEAD~1 8ddbc63 Add new doc
-    HEAD~2 2f8b16c Add doc
-    HEAD~3 609ad8a generate conflicts with feature
-    HEAD~4 c39b623 This is the new message.
-    HEAD~5 6ff4a8f first import
-    HEAD~6 14bd895 initial commit
+    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
+    HEAD~0 8ddbc63 Add new doc
+    HEAD~1 2f8b16c Add doc
+    HEAD~2 609ad8a generate conflicts with feature
+    HEAD~3 c39b623 This is the new message.
+    HEAD~4 6ff4a8f first import
+    HEAD~5 14bd895 initial commit
 
-We want to modify the following commit messages: `2f8b16c` (`HEAD~2`) and `c39b623` (`HEAD~4`).
+We want to modify the following commit messages: `2f8b16c` (`HEAD~1`) and `c39b623` (`HEAD~3`).
 
-> Please note that a all commits you want to edit **must have a parent commit**. This means that, in our example, the commit `14bd895` cannot be edited.
+> Please note:
+>
+> * we use `HEAD~4` (and not `HEAD~3`).
+> * a all commits you want to edit **must have a parent commit**. This means that, in our example, the commit `14bd895` cannot be edited.
 
 Type the following command:
 
@@ -498,13 +501,13 @@ Close the editor and follow the instructions...
 
 At the end:
 
-    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
-    HEAD~1 2e1b9ed Add new doc
-    HEAD~2 686a257 Add doc. Mes message for 6ff4a8f.
-    HEAD~3 29519fe generate conflicts with feature
-    HEAD~4 fb3f4ba This is the new message. New message for 6ff4a8f.
-    HEAD~5 6ff4a8f first import
-    HEAD~6 14bd895 initial commit
+    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
+    HEAD~0 2e1b9ed Add new doc
+    HEAD~1 686a257 Add doc. Mes message for 6ff4a8f.
+    HEAD~2 29519fe generate conflicts with feature
+    HEAD~3 fb3f4ba This is the new message. New message for 6ff4a8f.
+    HEAD~4 6ff4a8f first import
+    HEAD~5 14bd895 initial commit
 
 > Please note that the commits SHA have been modified.
 
@@ -514,20 +517,23 @@ Please note that by "content" we mean "what has been done in the source code".
 
 Let's say that we have this history:
 
-    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
-    HEAD~1 5f8bfa4 Add new doc
-    HEAD~2 5b8fa8f Add doc
-    HEAD~3 ade9bf4 generate conflicts with feature
-    HEAD~4 6ff4a8f first import
-    HEAD~5 14bd895 initial commit
+    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
+    HEAD~0 5f8bfa4 Add new doc
+    HEAD~1 5b8fa8f Add doc
+    HEAD~2 ade9bf4 generate conflicts with feature
+    HEAD~3 6ff4a8f first import
+    HEAD~4 14bd895 initial commit
 
-We want to modify the following commits: `5b8fa8f` (`HEAD~2`) and `6ff4a8f` (`HEAD~4`).
-
-> Please note that a all commits you want to edit **must have a parent commit**. This means that, in our example, the commit `14bd895` cannot be edited.
+We want to modify the following commits: `5b8fa8f` (`HEAD~1`) and `6ff4a8f` (`HEAD~3`).
 
 Type the following command:
 
     git rebase --interactive HEAD~4
+
+> Please note:
+>
+> * we use `HEAD~4` (and not `HEAD~3`).
+> * a all commits you want to edit **must have a parent commit**. This means that, in our example, the commit `14bd895` cannot be edited.
 
 GIT will open the editor you configured and ask you to modify the printed text. For example:
 
@@ -834,9 +840,25 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 
 > The line `rename postproc/{file4.py => file5.py} (57%)` indicates that a file has been **split**. **You should be VERY careful**: you cannot rely on GIT to show you what changed between the two commits! You must look at the code very carefully.
 
-## Print only the files that have been modified by commits
+## Print all commits that modified a specific file
 
-    git log --pretty=format:"%h" | head -n 10 | xargs -I % sh -c 'echo "### %"; echo "$(git show --pretty='' --name-only %)"'
+    git log --follow -- <file path>
+
+    git log --follow --pretty=format:"%C(green)%h%C(Reset) %s" -- <file path>
+
+    git log --follow --pretty=format:"%h %s" -- inject.py | awk "{print \"HEAD~\" NR-1 \" \" \$s}"
+
+You can also print the kind of modification that affected the file (use option `--name-status`):
+
+    git log --follow --name-status --pretty=format:"%C(green)%h%C(Reset) %s" -- inject.py
+
+## Print only the names of files that changed between 2 commits
+
+    git diff --name-only <commit sha1> [<commit sha2>]
+
+And, if you want to get the kind of modification that affected the files:
+
+    git diff --name-status <commit sha1> [<commit sha2>]
 
 ## Print the files in conflict
 
@@ -857,7 +879,6 @@ Or you can use a _sublime_ tool: [sublim merge](https://www.sublimemerge.com/doc
     # git log <short>
     alias gls='git log --pretty=format:"%C(green)%h%C(Reset) %s"'
 
-    # git log <short> with numeratation
-    alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR \" \" \$s}"'
-
+    # git log <short> with numeration
+    alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR-1 \" \" \$s}"'
 
