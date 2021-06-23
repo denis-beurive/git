@@ -842,6 +842,16 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 
     git diff --name-only --diff-filter=U
 
+## Use custom diff visualizer
+
+    git difftool -y -x sdiff 4f706f8 af61421 inject.py
+
+    git difftool -y --tool=vimdiff 4f706f8 af61421 inject.py
+
+    git difftool -y --tool=meld 4f706f8 af61421 inject.py
+
+Or you can use a _sublime_ tool: [sublim merge](https://www.sublimemerge.com/docs/faq#diffing_between_commits) (highly recommanded!)
+
 ## Useful aliases
 
     # git log <short>
@@ -849,3 +859,5 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 
     # git log <short> with numeratation
     alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR \" \" \$s}"'
+
+
