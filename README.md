@@ -467,14 +467,14 @@ Let's say that we have this history:
 
 We want to modify the following commit messages: `2f8b16c` (`HEAD~1`) and `c39b623` (`HEAD~3`).
 
+Type the following command:
+
+    git rebase --interactive HEAD~4
+
 > Please note:
 >
 > * we use `HEAD~4` (and not `HEAD~3`).
 > * a all commits you want to edit **must have a parent commit**. This means that, in our example, the commit `14bd895` cannot be edited.
-
-Type the following command:
-
-    git rebase --interactive HEAD~4
 
 GIT will open the editor you configured and ask you to modify the printed text. For example:
 
