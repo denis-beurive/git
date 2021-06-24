@@ -882,6 +882,20 @@ And, if you want to get the kind of modification that affected the files:
 
 Or you can use a _sublime_ tool: [sublim merge](https://www.sublimemerge.com/docs/faq#diffing_between_commits) (highly recommanded!)
 
+## Compare a file within 2 branches
+
+    git diff <branch1> <branch2> -- <file path>
+
+or, using a specific diff visualizer:
+
+    git difftool -y --tool=meld <branch1> <branch2> -- <file path>
+
+## Show files that are on another branch
+
+    git ls-tree -r --name-only <branch name> [<path to directory>]
+
+> See [git ls-tree](https://git-scm.com/docs/git-ls-tree)
+
 ## Useful aliases
 
     # git log <short>
