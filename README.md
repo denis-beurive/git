@@ -811,6 +811,14 @@ You are applying the commit `3959352` (from master) to the `HEAD` of `feature`:
 
     master/3959352 ---> HEAD/feature
 
+## Have I resolved all conflicts ?
+
+    git diff --check
+
+## Pick a file from another branch
+
+    git checkout <branch name> -- <file name>
+
 ## Find the commits that are in a branch, but not in another one
 
 Find the commit that are in `BRANCH1` but not in `BRANCH2`
