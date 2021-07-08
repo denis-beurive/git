@@ -896,6 +896,10 @@ or, using a specific diff visualizer:
 
 > See [git ls-tree](https://git-scm.com/docs/git-ls-tree)
 
+## Print only the name of the current branch
+
+    git branch --show-current
+
 ## Useful aliases
 
     # git log <short>
