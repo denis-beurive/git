@@ -121,6 +121,25 @@ Or, even better:
 
 You probably need to commit something.
 
+## Wrong GIT user
+
+If you have more than 1 GitHub account, then you may have trouble with GIT users. If so, the try this solution:
+
+    git init
+    git config user.name "<the user you want to use>"
+    git config user.email "<the user's email>"
+    git add README.md
+    git commit -m "first commit"
+    git branch -M main
+    git remote add origin <project GIT URI>
+    git config --local credential.helper ""
+    git push -u origin main
+
+Please note that the important points are:
+
+* `git config user.name...` and `git config user.email...`
+* `git config --local credential.helper ""`
+
 # Useful commands
 
 ## Use of --procelain
