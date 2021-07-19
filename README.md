@@ -788,7 +788,7 @@ The long story... [see here](rebase.md).
 
 ## Tips and tricks during rebase
 
-Show the SHA of the commit that is being the source of a conflict:
+Show the SHA of the commit that is being the source of a conflict
 
     $ git rebase --show-current-patch | head -n 1
     commit 3959352cdef7d3b458c4278d859a79203f101e93
@@ -927,3 +927,10 @@ or, using a specific diff visualizer:
     # git log <short> with numeration
     alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR-1 \" \" \$s}"'
 
+## Create a new branch from a branch that has uncommitted changes
+
+You are on a branch. You made a lot of modifications. And you want to create a new branch that is the _exact_ copy of the current branch, including the uncommitted changes. 
+
+    git switch -c <new branch>
+
+> See [Git: Create a branch from unstaged/uncommitted changes on master](https://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstaged-uncommitted-changes-on-master)
