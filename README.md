@@ -968,11 +968,11 @@ Date:   Fri May 28 17:57:27 2021 +0200
 
     git log --follow --pretty=format:"%C(green)%h%C(Reset) %s" -- <file path>
 
-    git log --follow --pretty=format:"%h %s" -- inject.py | awk "{print \"HEAD~\" NR-1 \" \" \$s}"
+    git log --follow --pretty=format:"%h %s" -- file.py | awk "{print \"HEAD~\" NR-1 \" \" \$s}"
 
 You can also print the kind of modification that affected the file (use option `--name-status`):
 
-    git log --follow --name-status --pretty=format:"%C(green)%h%C(Reset) %s" -- inject.py
+    git log --follow --name-status --pretty=format:"%C(green)%h%C(Reset) %s" -- file.py
 
 ## Print only the names of files that changed between 2 commits
 
@@ -988,11 +988,11 @@ And, if you want to get the kind of modification that affected the files:
 
 ## Use custom diff visualizer
 
-    git difftool -y -x sdiff 4f706f8 af61421 inject.py
+    git difftool -y -x sdiff 4f706f8 af61421 file.py
 
-    git difftool -y --tool=vimdiff 4f706f8 af61421 inject.py
+    git difftool -y --tool=vimdiff 4f706f8 af61421 file.py
 
-    git difftool -y --tool=meld 4f706f8 af61421 inject.py
+    git difftool -y --tool=meld 4f706f8 af61421 file.py
 
 Or you can use a _sublime_ tool: [sublim merge](https://www.sublimemerge.com/docs/faq#diffing_between_commits) (highly recommanded!)
 
@@ -1032,7 +1032,7 @@ You are on a branch. You made a lot of modifications. And you want to create a n
 
 ## Quickly set configuration for several accounts
 
-Put this function into you `~/.bashrc`.
+Put this function into your `~/.bashrc`.
 
 ```shell
 set_git_account() {
