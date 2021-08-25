@@ -44,11 +44,15 @@ This way, when the SSH client opens a connexion to the host `github.com`, using 
 
 Run the command below:
 
-    $ ssh -T git@personal.github.com
-    Hi your-login-1! You've successfully authenticated, but GitHub does not provide shell access.
+```shell
+$ ssh -T git@personal.github.com
+Hi your-login-1! You've successfully authenticated, but GitHub does not provide shell access.
+```
 
-    $ ssh -T git@profesional.github.com
-    Hi your-login-2! You've successfully authenticated, but GitHub does not provide shell access.
+```shell
+$ ssh -T git@profesional.github.com
+Hi your-login-2! You've successfully authenticated, but GitHub does not provide shell access.
+```
 
 > If you need to check the repository configuration: `git config -l`
 
@@ -158,11 +162,17 @@ Please note that the important points are:
 
 ### Commit all the modification at once
 
-    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; $_ =~ s/^ *(M|A|D|R|C|U) //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
+```shell
+$ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; $_ =~ s/^ *(M|A|D|R|C|U) //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
+```
 
-    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *M /) { next; }; $_ =~ s/^ *M //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
+```shell
+$ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *M /) { next; }; $_ =~ s/^ *M //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
+```
 
-    $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *D /) { next; }; $_ =~ s/^ *D //; push(@lines, $_); } print join(" ", @lines);' > delete.sh
+```shell
+$ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *D /) { next; }; $_ =~ s/^ *D //; push(@lines, $_); } print join(" ", @lines);' > delete.sh
+```
 
 ## Make an initial empty commit
 
@@ -218,11 +228,13 @@ This command add numerotation:
 
 Example:
 
-    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}' | head -n 4
-    HEAD~1 697c643 message1
-    HEAD~2 85fe2df message2
-    HEAD~3 4e3b991 message3
-    HEAD~4 0386a8f message4
+```shell
+$ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}' | head -n 4
+HEAD~1 697c643 message1
+HEAD~2 85fe2df message2
+HEAD~3 4e3b991 message3
+HEAD~4 0386a8f message4
+```
 
 ### For another branch
 
@@ -234,17 +246,21 @@ Just specify the name of the branch:
 
 Just specify the names of the branches:
 
-    $ git log --pretty=format:"%ct %h %s" feature master
-    1622741213 2778ac8 3. edit from master
-    1622741170 a38453b 2. edit from feature
-    1622741110 a53d88c 1. edit from master
-    1622741055 bfb5b09 initial commit
+```shell
+$ git log --pretty=format:"%ct %h %s" feature master
+1622741213 2778ac8 3. edit from master
+1622741170 a38453b 2. edit from feature
+1622741110 a53d88c 1. edit from master
+1622741055 bfb5b09 initial commit
+```
 
 > The cool thing is that the commits are chronologically sorted.
 
 ## Print the changed applied to a specific commit
 
-    $ git diff <commit SHA>
+```shell
+$ git diff <commit SHA>
+```
 
 > Please note that you may need to use `git fetch` first.
 
@@ -283,44 +299,62 @@ It does not remove the file from the local filesystem.
 
 ## Create a repository on the GIT server (which may be localhost)
 
-    $ cd /opt/git
-    $ mkdir projet.git
-    $ cd projet.git
-    $ git --bare init
+```shell
+$ cd /opt/git
+$ mkdir projet.git
+$ cd projet.git
+$ git --bare init
+```
 
 ## Create a new branch
 
-    $ git checkout -b refactoring
-    Switched to a new branch 'refactoring'
+```shell
+$ git checkout -b refactoring
+Switched to a new branch 'refactoring'
+```
 
-    $ git branch
-      master
-    * refactoring
+```shell
+$ git branch
+  master
+* refactoring
+```
 
 ## Push a branch
 
 ### Secure
 
-    $ git push origin refactoring
+```shell
+$ git push origin refactoring
+```
 
 ### Unsecure
 
 The following replaces the remote branch by the local one, **no matter the context**:
 
-    $ git push -f origin refactoring    
+```shell
+$ git push -f origin refactoring    
+```
 
 ## Merge a branch
 
+```shell
     $ git branch
       master
     * refactoring
-    
+```
+
+```shell
     $ git checkout master
     Switched to branch 'master'
-    
-    $ git merge refactoring
+```
 
+```shell
+    $ git merge refactoring
+```
+
+```shell
     $ git push origin master
+```
 
 ## Delete a local branch
 
@@ -382,9 +416,11 @@ Assuming that you have the following `.gitignore` file:
 
 Then, you can make sure that a particular entry (file or directory) is ignored:
 
-    $ git check-ignore -v */lib
-    .gitignore:5:lib/   app-cbc-des/lib
-    .gitignore:5:lib/   app-cfb-des/lib
+```shell
+$ git check-ignore -v */lib
+.gitignore:5:lib/   app-cbc-des/lib
+.gitignore:5:lib/   app-cfb-des/lib
+```
 
 ## Global .gitignore
 
@@ -419,22 +455,24 @@ Once the local repository has been updated/fetched, we can compare the local bra
 
 Example:
 
-    $ git log --pretty=format:"%C(green)%h%C(Reset) %s"
-    8699120 Edit file2 for the first time
-    faf7388 Create file2. This message has been modified.
-    50659dc Create file1. This message has been modified.
-    9fb518b first commit
+```shell
+$ git log --pretty=format:"%C(green)%h%C(Reset) %s"
+8699120 Edit file2 for the first time
+faf7388 Create file2. This message has been modified.
+50659dc Create file1. This message has been modified.
+9fb518b first commit
 
-    $ git show faf7388
-    commit faf7388eec0e94f601a2af506dfea81ca60c31e4
-    Author: Denis BEURIVE <dbeurive@protonmail.com>
-    Date:   Thu May 6 11:46:00 2021 +0200
+$ git show faf7388
+commit faf7388eec0e94f601a2af506dfea81ca60c31e4
+Author: Denis BEURIVE <dbeurive@protonmail.com>
+Date:   Thu May 6 11:46:00 2021 +0200
 
-        Create file2. This message has been modified.
+    Create file2. This message has been modified.
 
-    diff --git a/file2 b/file2
-    new file mode 100644
-    index 0000000..e69de29
+diff --git a/file2 b/file2
+new file mode 100644
+index 0000000..e69de29
+```
 
 If you are just interested by the files associated with a commit:
 
@@ -476,13 +514,15 @@ Or, for version 4 of Sublime Text:
 
 Let's say that we have this history:
 
-    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
-    HEAD~0 8ddbc63 Add new doc
-    HEAD~1 2f8b16c Add doc
-    HEAD~2 609ad8a generate conflicts with feature
-    HEAD~3 c39b623 This is the new message.
-    HEAD~4 6ff4a8f first import
-    HEAD~5 14bd895 initial commit
+```shell
+$ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
+HEAD~0 8ddbc63 Add new doc
+HEAD~1 2f8b16c Add doc
+HEAD~2 609ad8a generate conflicts with feature
+HEAD~3 c39b623 This is the new message.
+HEAD~4 6ff4a8f first import
+HEAD~5 14bd895 initial commit
+```
 
 We want to modify the following commit messages: `2f8b16c` (`HEAD~1`) and `c39b623` (`HEAD~3`).
 
@@ -520,13 +560,15 @@ Close the editor and follow the instructions...
 
 At the end:
 
-    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
-    HEAD~0 2e1b9ed Add new doc
-    HEAD~1 686a257 Add doc. Mes message for 6ff4a8f.
-    HEAD~2 29519fe generate conflicts with feature
-    HEAD~3 fb3f4ba This is the new message. New message for 6ff4a8f.
-    HEAD~4 6ff4a8f first import
-    HEAD~5 14bd895 initial commit
+```shell
+$ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
+HEAD~0 2e1b9ed Add new doc
+HEAD~1 686a257 Add doc. Mes message for 6ff4a8f.
+HEAD~2 29519fe generate conflicts with feature
+HEAD~3 fb3f4ba This is the new message. New message for 6ff4a8f.
+HEAD~4 6ff4a8f first import
+HEAD~5 14bd895 initial commit
+```
 
 > Please note that the commits SHA have been modified.
 
@@ -536,12 +578,14 @@ Please note that by "content" we mean "what has been done in the source code".
 
 Let's say that we have this history:
 
-    $ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
-    HEAD~0 5f8bfa4 Add new doc
-    HEAD~1 5b8fa8f Add doc
-    HEAD~2 ade9bf4 generate conflicts with feature
-    HEAD~3 6ff4a8f first import
-    HEAD~4 14bd895 initial commit
+```shell
+$ git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR-1 " " $s}'
+HEAD~0 5f8bfa4 Add new doc
+HEAD~1 5b8fa8f Add doc
+HEAD~2 ade9bf4 generate conflicts with feature
+HEAD~3 6ff4a8f first import
+HEAD~4 14bd895 initial commit
+```
 
 We want to modify the following commits: `5b8fa8f` (`HEAD~1`) and `6ff4a8f` (`HEAD~3`).
 
@@ -602,9 +646,11 @@ Then proceed for the second commit...
 
 Let's say that you want to _completely override_ the remote branch "`issue135`" by the local branch "`issue135-clean`".
 
-    $ git branch
-    * master
-      issue135-clean
+```shell
+$ git branch
+* master
+  issue135-clean
+```
 
 Checkout the branch "`issue135-clean`":
 
@@ -612,10 +658,12 @@ Checkout the branch "`issue135-clean`":
 
 Rename the current branch (that is "`issue135-clean`") into "`issue135`":
 
-    $ git branch -m issue135
-    $ git branch
-    * issue135
-      master
+```shell
+$ git branch -m issue135
+$ git branch
+* issue135
+  master
+```
 
 Then push (from now on) the branch "`issue135`":
 
@@ -627,13 +675,15 @@ Then push (from now on) the branch "`issue135`":
 
 Let's say that you want to _completely override_ the local branch "`issue135`" by the remote branch "`issue135`".
 
-    $ git branch
-    * issue135
-      master
+```shell
+$ git branch
+* issue135
+  master
 
-    $ git fetch --all
+$ git fetch --all
 
-    $ git reset --hard origin/issue135
+$ git reset --hard origin/issue135
+```
 
 > **WARINING**: all modifications made on the local branch will be lost!
 
@@ -815,7 +865,7 @@ get_id() {
 }
 
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]`parse_git_branch`\[\033[0m\]\$ '
-```shell
+```
 
 > The important point here is ``\[\033[01;33m\]`parse_git_branch`\[\033[0m\]``.
 >
