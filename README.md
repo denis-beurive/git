@@ -62,7 +62,9 @@ Here are some useful commands.
 
 Check the fingerprint of an SSH key:
 
-    $ sh-keygen -l -E sha256 -f $SSH_KEY_FILE
+```shell
+$ sh-keygen -l -E sha256 -f $SSH_KEY_FILE
+```
 
 > You can make sure that the private SSH you have matches to the public key you uploaded on GitHub.
 
@@ -84,28 +86,38 @@ Print the list of loaded private keys:
 
 # Configuring a repository
 
-    $ git remote add origin git@personal.github.com:your-login-1/your-repository.git
-    $ git config user.email "your-login-1@domain.com"
+```shell
+$ git remote add origin git@personal.github.com:your-login-1/your-repository.git
+$ git config user.email "your-login-1@domain.com"
+```
 
 or:
 
-    $ git remote add origin git@profesional.github.com:your-login-2/your-repository.git
-    $ git config user.email "your-login-2@domain.com"
+```shell
+$ git remote add origin git@profesional.github.com:your-login-2/your-repository.git
+$ git config user.email "your-login-2@domain.com"
+```
 
 To see the configuration:
 
-    $ git config --list
-    $ git config --get-all user.email
-    $ git config --get-all remote.origin.url
+```shell
+$ git config --list
+$ git config --get-all user.email
+$ git config --get-all remote.origin.url
+```
 
 Il you need to unset/remove a configuration paramter:
 
-    $ git config --unset user.email your-login-1@domain.com
-    $ git remote rm origin
+```shell
+$ git config --unset user.email your-login-1@domain.com
+$ git remote rm origin
+```
 
 If you need to change the origin URL:
 
-    $ git remote set-url origin git@personal.github.com:your-login-1/your-repository.git
+```shell
+$ git remote set-url origin git@personal.github.com:your-login-1/your-repository.git
+```
 
 > This command may be useful depending on your GitHub account settings.
 
@@ -115,11 +127,15 @@ If you need to change the origin URL:
 
 If you have a problem while performing a GIT command, you can try this commands:
 
-    GIT_TRACE=2 git push --verbose -u origin master
+```shell
+$ GIT_TRACE=2 git push --verbose -u origin master
+```
 
 Or, even better:
 
-    GIT_CURL_VERBOSE=1 GIT_TRACE=1 git push -u origin master
+```shell
+$ GIT_CURL_VERBOSE=1 GIT_TRACE=1 git push -u origin master
+```
 
 ## Did you get this error ? "error: failed to push some refs to..."
 
@@ -869,6 +885,10 @@ get_git_id() {
 PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]`get_git_id`\[\033[0m\]\$ '
 ```
 
+Result:
+
+![](images/bash-prompt.png)
+
 > The important point here is ``\[\033[01;33m\]`get_git_id`\[\033[0m\]``.
 >
 > [Good link](https://superuser.com/questions/382456/why-does-this-bash-prompt-sometimes-keep-part-of-previous-commands-when-scrollin) in case you have a problem with the colors.
@@ -1005,3 +1025,21 @@ You are on a branch. You made a lot of modifications. And you want to create a n
     git switch -c <new branch>
 
 > See [Git: Create a branch from unstaged/uncommitted changes on master](https://stackoverflow.com/questions/2569459/git-create-a-branch-from-unstaged-uncommitted-changes-on-master)
+
+## Quickly set configuration for several accounts
+
+Put this function into you `~/.bashrc`.
+
+```shell
+set_git_account() {
+   git config user.email "your@address.email"
+   git config user.name "Your Name"
+   git config remote.upstream.url "git@domain.com:group/repos.git"
+   git config remote.upstream.fetch "+refs/heads/*:refs/remotes/upstream/*"
+   git config --get-regexp remote.upstream.*
+}
+```
+
+Then you just need to execute `set_git_account` from the command line to set the required configuration.
+
+
