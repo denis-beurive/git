@@ -906,16 +906,18 @@ email=$(git config --local --get-all user.email)
 
 ## Read a "rebase" conflict message
 
-    $ git checkout feature
-    $ git rebase master
-    Fusion automatique de path/to/file
-    CONFLIT (contenu) : Conflit de fusion dans path/to/file
-    error: impossible d'appliquer 3959352... the commit message...
-    Resolve all conflicts manually, mark them as resolved with
-    "git add/rm <conflicted_files>", then run "git rebase --continue".
-    You can instead skip this commit: run "git rebase --skip".
-    To abort and get back to the state before "git rebase", run "git rebase --abort".
-    impossible d'appliquer 3959352... the commit message...
+```shell
+$ git checkout feature
+$ git rebase master
+Fusion automatique de path/to/file
+CONFLIT (contenu) : Conflit de fusion dans path/to/file
+error: impossible d'appliquer 3959352... the commit message...
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+impossible d'appliquer 3959352... the commit message...
+```
 
 You are applying the commit `3959352` (from master) to the `HEAD` of `feature`:
 
@@ -940,21 +942,23 @@ Find the commit that are in `BRANCH1` but not in `BRANCH2`
 
 ## Show what has been done to files on a specific commit
 
-    $ git show 3959352 --summary
-    commit 3959352cdef7d3b458c4278d859a79203f101e93
-    Author: Denis Beurivé <dbeurive@protonmail.com>
-    Date:   Fri May 28 17:57:27 2021 +0200
+```shell
+$ git show 3959352 --summary
+commit 3959352cdef7d3b458c4278d859a79203f101e93
+Author: Denis Beurivé <dbeurive@protonmail.com>
+Date:   Fri May 28 17:57:27 2021 +0200
 
-        The commit message.
-        
-        Ref: #123
+    The commit message.
+    
+    Ref: #123
 
-     create mode 100644 __init__.py
-     create mode 100644 file1.py
-     create mode 100644 file2.py
-     create mode 100644 file3.py
-     rename postproc/{file4.py => file5.py} (57%)
-     create mode 100644 file6.py
+ create mode 100644 __init__.py
+ create mode 100644 file1.py
+ create mode 100644 file2.py
+ create mode 100644 file3.py
+ rename postproc/{file4.py => file5.py} (57%)
+ create mode 100644 file6.py
+```
 
 > The line `rename postproc/{file4.py => file5.py} (57%)` indicates that a file has been **split**. **You should be VERY careful**: you cannot rely on GIT to show you what changed between the two commits! You must look at the code very carefully.
 
