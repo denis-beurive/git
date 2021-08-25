@@ -861,7 +861,7 @@ Show the SHA of the commit that is being the source of a conflict
 
 # GIT general tips
 
-## Add branch name to Bash prompt
+## Add repository configuration to Bash prompt
 
 Add this in your file `.bashrc`:
 
@@ -871,12 +871,12 @@ get_git_id() {
     local name
     local email
     local branch
-    local origine
+    local origin
     name=$(git config user.name)
     email=$(git config user.email)
     branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-    origine=$(git config remote.origin.url)
-    printf "\nname:    [%s]\nemail:   [%s]\norigine: [%s]\nbranch:  [%s]" "${name}" "${email}" "${origine}" "${branch}"
+    origin=$(git config remote.origin.url)
+    printf "\nname:   [%s]\nemail:  [%s]\norigin: [%s]\nbranch: [%s]" "${name}" "${email}" "${origin}" "${branch}"
   else
     printf ""
   fi;
@@ -1036,14 +1036,38 @@ Put this function into your `~/.bashrc`.
 
 ```shell
 set_git_account() {
-   git config user.email "your@address.email"
-   git config user.name "Your Name"
-   git config remote.upstream.url "git@domain.com:group/repos.git"
-   git config remote.upstream.fetch "+refs/heads/*:refs/remotes/upstream/*"
-   git config --get-regexp remote.upstream.*
+   if [ -d .git ]; then
+      local upstream_cmd1="git config remote.upstream.url \"git@domain.com:group1/repos.git\""
+      local upstream_cmd2="git config remote.upstream.fetch \"+refs/heads/*:refs/remotes/upstream/*\""
+
+      case "${1}" in
+         account1)
+              printf "Set configuration for GIT account [%s]\n" "${1}"
+              git config user.email "account1@domain.com"
+              git config user.name "Name"
+              printf "Done\n\n"
+              ;;
+         account2)
+              printf "Set configuration for GIT account [%s]\n" "${1}"
+              git config user.email "account2@domain.com"
+              git config user.name "Name"
+              printf "Done\n\n"
+              ;;
+         *)
+              printf "Unexpected account [%s]\n" $1
+              return
+              ;;
+      esac
+
+      printf "Upstream configuration:\n"
+      git config --get-regexp remote.upstream.*
+      printf "You may need to set upstream:\n  %s\n  %s\n" "${upstream_cmd1}" "${upstream_cmd2}"
+   else
+      printf "WARNING: your are not in a repository!\n"
+   fi
 }
+
 ```
 
-Then you just need to execute `set_git_account` from the command line to set the required configuration.
-
+Then you just need to execute `set_git_account <account>` from the command line to set the required configuration.
 
