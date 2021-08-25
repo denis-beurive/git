@@ -850,15 +850,17 @@ Show the SHA of the commit that is being the source of a conflict
 Add this in your file `.bashrc`:
 
 ```shell
-get_id() {
+get_git_id() {
   if [ -d .git ]; then
     local name
     local email
     local branch
+    local origine
     name=$(git config user.name)
     email=$(git config user.email)
     branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
-    printf " [%s] %s > %s" "${name}" "${email}" "${branch}"
+    origine=$(git config remote.origin.url)
+    printf "\nname:    [%s]\nemail:   [%s]\norigine: [%s]\nbranch:  [%s]" "${name}" "${email}" "${origine}" "${branch}"
   else
     printf ""
   fi;
