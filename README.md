@@ -855,8 +855,8 @@ get_id() {
     local name
     local email
     local branch
-    name=$(git config --local --get-all user.name)
-    email=$(git config --local --get-all user.email)
+    name=$(git config user.name)
+    email=$(git config user.email)
     branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
     printf " [%s] %s > %s" "${name}" "${email}" "${branch}"
   else
