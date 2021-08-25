@@ -145,15 +145,17 @@ You probably need to commit something.
 
 If you have more than 1 GitHub account, then you may have trouble with GIT users. If so, the try this solution:
 
-    git init
-    git config user.name "<the user you want to use>"
-    git config user.email "<the user's email>"
-    git add README.md
-    git commit -m "first commit"
-    git branch -M main
-    git remote add origin <project GIT URI>
-    git config --local credential.helper ""
-    git push -u origin main
+```shell
+git init
+git config user.name "<the user you want to use>"
+git config user.email "<the user's email>"
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin <project GIT URI>
+git config --local credential.helper ""
+git push -u origin main
+```
 
 Please note that the important points are:
 
@@ -166,33 +168,39 @@ Please note that the important points are:
 
 ### Add all modified files to the staging area
 
-    git status --porcelain | egrep '^ M ' | sed --expression='s/^ M //' | xargs -n1 git add
+```shell
+git status --porcelain | egrep '^ M ' | sed --expression='s/^ M //' | xargs -n1 git add
+```
 
 > Same as `git add --all`
 
 ### Commit all staged files
 
-    git status --porcelain | egrep '^M  ' | sed --expression='s/^M  //' |  xargs -n1 git commit -m "Your message"
+```shell
+git status --porcelain | egrep '^M  ' | sed --expression='s/^M  //' |  xargs -n1 git commit -m "Your message"
+```
 
 > Will generate as many commits as files (this is not equivalent to a single `git commit`).
 
 ### Commit all the modification at once
 
 ```shell
-$ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; $_ =~ s/^ *(M|A|D|R|C|U) //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
+git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; $_ =~ s/^ *(M|A|D|R|C|U) //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
 ```
 
 ```shell
-$ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *M /) { next; }; $_ =~ s/^ *M //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
+git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *M /) { next; }; $_ =~ s/^ *M //; push(@lines, $_); } print join(" ", @lines);' | xargs git add
 ```
 
 ```shell
-$ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *D /) { next; }; $_ =~ s/^ *D //; push(@lines, $_); } print join(" ", @lines);' > delete.sh
+git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *D /) { next; }; $_ =~ s/^ *D //; push(@lines, $_); } print join(" ", @lines);' > delete.sh
 ```
 
 ## Make an initial empty commit
 
-    git commit --allow-empty -m "initial commit"
+```shell
+git commit --allow-empty -m "initial commit"
+```
 
 > Please note:
 >
@@ -200,36 +208,50 @@ $ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless
 
 ## Inject the modifications into the repository
 
-    git push -u origin master
+```shell
+git push -u origin master
+```
 
 ## Change the case
 
-    git mv foldername tempname && git mv tempname folderName
-    git mv Entrypoints tempname && git mv tempname EntryPoints
+```shell
+git mv foldername tempname && git mv tempname folderName
+git mv Entrypoints tempname && git mv tempname EntryPoints
+```
 
 ## Print the LOG (print commits)
 
 ### For the current branch
 
-    git log --pretty="%h %an %ae"
+```shell
+git log --pretty="%h %an %ae"
+```
 
 Add color and filter on commits author:
 
-    git log --stat --pretty=format:"%C(#ff69b4)#####> %h - %an, %ar :%C(reset)%n%n%C(#FFFF00)%s%c(Reset)%n%n%b" --author="Denis BEURIVE"
+```shell
+git log --stat --pretty=format:"%C(#ff69b4)#####> %h - %an, %ar :%C(reset)%n%n%C(#FFFF00)%s%c(Reset)%n%n%b" --author="Denis BEURIVE"
+```
 
 > Please note that you may need to use `git fetch` first.
 
 Add the file(s) associated with the commits (add option `--name-only`):
 
-    git log --pretty=format:"%C(green)%h%C(Reset) %s" --name-only
+```shell
+git log --pretty=format:"%C(green)%h%C(Reset) %s" --name-only
+```
 
 Add the names of the commits authors (add "`%an`"):
 
-    git log --pretty=format:"%C(green)%h%C(Reset) %C(red)%an%C(Reset) %s%n%aD" --name-only
+```shell
+git log --pretty=format:"%C(green)%h%C(Reset) %C(red)%an%C(Reset) %s%n%aD" --name-only
+```
 
 This command may be useful to compare commits histories between branches:
 
-    git log  --pretty=format:"%C(green)%h%C(Reset) %ai <%an> %s" | head -n 20 | less --chop-long-lines
+```shell
+git log  --pretty=format:"%C(green)%h%C(Reset) %ai <%an> %s" | head -n 20 | less --chop-long-lines
+```
 
 > You have:
 > * the commit (sha) tag.
@@ -240,7 +262,9 @@ This command may be useful to compare commits histories between branches:
 
 This command add numerotation:
 
-    git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
+```shell
+git log --pretty=format:"%h %s" | awk '{print "HEAD~" NR " " $s}'
+```
 
 Example:
 
@@ -256,7 +280,9 @@ HEAD~4 0386a8f message4
 
 Just specify the name of the branch:
 
-    git log --pretty=format:"%ct %h %s" feature
+```shell
+git log --pretty=format:"%ct %h %s" feature
+```
 
 ### For a set of branches
 
@@ -282,7 +308,9 @@ $ git diff <commit SHA>
 
 ## Print the remote configuration
 
-    git remote -v
+```shell
+git remote -v
+```
 
 If you need to remove a remote:
 
@@ -292,26 +320,34 @@ If you need to remove a remote:
 
 If you need to tag:
 
-    git tag -a 1.0.0 -m "First version"
-    git push origin --tags
+```shell
+git tag -a 1.0.0 -m "First version"
+git push origin --tags
+```
 
 If you need to delete the tag:
 
-    git tag -d 1.0.0
-    git push origin :refs/tags/1.0.0
+```shell
+git tag -d 1.0.0
+git push origin :refs/tags/1.0.0
+```
 
 Check the tags on the remote:
 
-    git ls-remote --tags
+```shell
+git ls-remote --tags
+```
 
 ## Remove a file from the (remote) repository
 
 The command below removes files on the (remote) repository only.
 It does not remove the file from the local filesystem.
 
-    git rm --cached /path/to/the/file 
-    git commit -m "remove /path/to/the/file"
-    git push -u origin master
+```shell
+git rm --cached /path/to/the/file 
+git commit -m "remove /path/to/the/file"
+git push -u origin master
+```
 
 ## Create a repository on the GIT server (which may be localhost)
 
@@ -378,47 +414,65 @@ $ git push -f origin refactoring
 
 First, make sure that the branch has been merged:
 
-    git branch --merged
+```shell
+git branch --merged
+```
 
 Then, you can delete it:
 
-    git branch -d refactoring
+```shell
+git branch -d refactoring
+```
 
 ### Unsecure
 
 The following command deletes the branch, **no matter its state**:
 
-    git branch -D refactoring
+```shell
+git branch -D refactoring
+```
 
 ## Delete a remote branch
 
 First, make sure that the remote branch has been merged:
 
-    git branch -r merged
+```shell
+git branch -r merged
+```
 
 Then, you can delete it:
 
-    git push origin --delete refactoring
+```shell
+git push origin --delete refactoring
+```
 
 ## Save authentication parameters
 
-    git config credential.helper store
+```shell
+git config credential.helper store
+```
 
 or:
 
-    git config --global credential.helper store
+```shell
+git config --global credential.helper store
+```
 
 For a session only:
 
-    git config --global credential.helper cache
+```shell
+git config --global credential.helper cache
+```
 
 ## Force the update of the local branch from the remote one
 
 The following command will force the update of the local branch `master`:
 
-    git checkout master
-    git fetch
-    git reset --hard origin/master
+```shell
+git checkout master
+git fetch
+git reset --hard origin/master
+```
 
 ## Check a .gitignore file
 
@@ -442,7 +496,9 @@ $ git check-ignore -v */lib
 
 You can create a `.gitignore` file that will apply for all your projects:
 
-    git config --global core.excludesFile ~/.gitignore
+```shell
+git config --global core.excludesFile ~/.gitignore
+```
 
 ## Import the branch metadata only (do not merge)
 
@@ -453,11 +509,15 @@ For a single branch:
 
 For all branches:
 
-    git fetch --all
+```shell
+git fetch --all
+```
 
 or, which is equivalent:
 
-    git remote update
+```shell
+git remote update
+```
 
 **Note**:
 
@@ -496,7 +556,9 @@ If you are just interested by the files associated with a commit:
  
 If you need to show the last commit:
 
-    git show HEAD
+```shell
+git show HEAD
+```
 
 ## Checkout a specific commit
 
@@ -504,23 +566,31 @@ If you need to show the last commit:
 
 For example:
 
-    git checkout b928950669f5da9414000de50c3a3ba7f7be7597
+```shell
+git checkout b928950669f5da9414000de50c3a3ba7f7be7597
+```
 
 ## Set specific editor for interactive oprations
 
 for version 3 of Sublime Text:
 
-    git config --global core.editor "/home/denis/Documents/softwares/sublime_text_3/sublime_text -n -w"
+```shell
+git config --global core.editor "/home/denis/Documents/softwares/sublime_text_3/sublime_text -n -w"
+```
 
 Or, for version 4 of Sublime Text:
 
-    git config --global core.editor "/usr/bin/subl -n -w"
+```shell
+git config --global core.editor "/usr/bin/subl -n -w"
+```
 
 > Source: [Git Tips #2 - Change editor for interactive Git rebase](https://www.kevinkuszyk.com/2016/03/08/git-tips-2-change-editor-for-interactive-git-rebase/)
 
 ## Test if a local repository is up to data
 
-    git fetch --dry-run
+```shell
+git fetch --dry-run
+```
 
 > Git "fetch" Downloads commits, objects and refs from another repository. It fetches branches and tags from one or more repositories. 
 
@@ -544,7 +614,9 @@ We want to modify the following commit messages: `2f8b16c` (`HEAD~1`) and `c39b6
 
 Type the following command:
 
-    git rebase --interactive HEAD~4
+```shell
+git rebase --interactive HEAD~4
+```
 
 > Please note:
 >
@@ -650,7 +722,9 @@ Please note that you can change the commit message or not:
 
 And continue the `rebase`:
 
-    git rebase --continue
+```shell
+git rebase --continue
+```
 
 Then proceed for the second commit...
 
@@ -683,7 +757,9 @@ $ git branch
 
 Then push (from now on) the branch "`issue135`":
 
-    $ git push -f origin issue135
+```shell
+git push -f origin issue135
+```
 
 > Please note the use of the option `-f` (force).
 
@@ -719,41 +795,49 @@ The difference between `upstream` and `origin` should be understood in the conte
 
 Print your configuration:
 
-    $ git config --get-regexp remote.origin.*
-    remote.origin.url https://...
-    remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+```shell
+$ git config --get-regexp remote.origin.*
+remote.origin.url https://...
+remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 
-    $ git config --get-regexp remote.upstream.*
-    remote.upstream.url https://...
-    remote.upstream.fetch +refs/heads/*:refs/remotes/upstream/*
+$ git config --get-regexp remote.upstream.*
+remote.upstream.url https://...
+remote.upstream.fetch +refs/heads/*:refs/remotes/upstream/*
+```
 
 Delete a configuration:
 
-    git config --unset remote.origin.url
-    git config --unset remote.origin.fetch
-    git config --get-regexp remote.origin.*
+```shell
+git config --unset remote.origin.url
+git config --unset remote.origin.fetch
+git config --get-regexp remote.origin.*
 
-    git config --unset remote.upstream.url
-    git config --unset remote.upstream.fetch
-    git config --get-regexp remote.upstream.*
+git config --unset remote.upstream.url
+git config --unset remote.upstream.fetch
+git config --get-regexp remote.upstream.*
+```
 
 Set a configuration:
 
-    ORIGIN_URL=https://your.origin.repository.url
-    git remote add origin ${ORIGIN_URL}
-    git config --get-regexp remote.origin.*
+```shell
+ORIGIN_URL=https://your.origin.repository.url
+git remote add origin ${ORIGIN_URL}
+git config --get-regexp remote.origin.*
 
-    UPSTREAM_URL=https://your.upstream.repository.url
-    git remote add upstream ${UPSTREAM_URL}
-    git config --get-regexp remote.upstream.*
+UPSTREAM_URL=https://your.upstream.repository.url
+git remote add upstream ${UPSTREAM_URL}
+git config --get-regexp remote.upstream.*
+```
 
 **Quick note: synchronising local/remote repositories**
 
 If you want to update you local branch from "upstream" (the _official project repository_ that you forked):
 
-    git checkout master
-    git fetch upstream
-    git pull upstream master
+```shell
+git checkout master
+git fetch upstream
+git pull upstream master
+```
 
 > You can also override your local branch: `git reset --hard upstream/master` (see [here](https://stackoverflow.com/questions/15432052/what-is-the-meaning-of-git-reset-hard-origin-master/15432250))
 
@@ -856,8 +940,10 @@ The long story... [see here](rebase.md).
 
 Show the SHA of the commit that is being the source of a conflict
 
-    $ git rebase --show-current-patch | head -n 1
-    commit 3959352cdef7d3b458c4278d859a79203f101e93
+```shell
+$ git rebase --show-current-patch | head -n 1
+commit 3959352cdef7d3b458c4278d859a79203f101e93
+```
 
 # GIT general tips
 
@@ -925,7 +1011,9 @@ You are applying the commit `3959352` (from master) to the `HEAD` of `feature`:
 
 ## Have I resolved all conflicts ?
 
-    git diff --check
+```shell
+git diff --check
+```
 
 ## Pick a file from another branch
 
@@ -935,10 +1023,12 @@ You are applying the commit `3959352` (from master) to the `HEAD` of `feature`:
 
 Find the commit that are in `BRANCH1` but not in `BRANCH2`
 
-    BRANCH1="master"
-    BRANCH2="feature"
+```shell
+BRANCH1="master"
+BRANCH2="feature"
 
-    diff <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH1}) <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH2}) | grep '^<'    | sed 's|^< ||'
+diff <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH1}) <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH2}) | grep '^<'    | sed 's|^< ||'
+```
 
 ## Show what has been done to files on a specific commit
 
@@ -984,7 +1074,9 @@ And, if you want to get the kind of modification that affected the files:
 
 ## Print the files in conflict
 
-    git diff --name-only --diff-filter=U
+```shell
+git diff --name-only --diff-filter=U
+```
 
 ## Use custom diff visualizer
 
@@ -1012,15 +1104,19 @@ or, using a specific diff visualizer:
 
 ## Print only the name of the current branch
 
-    git branch --show-current
+```shell
+git branch --show-current
+```
 
 ## Useful aliases
 
-    # git log <short>
-    alias gls='git log --pretty=format:"%C(green)%h%C(Reset) %s"'
+```shell
+# git log <short>
+alias gls='git log --pretty=format:"%C(green)%h%C(Reset) %s"'
 
-    # git log <short> with numeration
-    alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR-1 \" \" \$s}"'
+# git log <short> with numeration
+alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR-1 \" \" \$s}"'
+```
 
 ## Create a new branch from a branch that has uncommitted changes
 
