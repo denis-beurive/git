@@ -799,11 +799,23 @@ Show the SHA of the commit that is being the source of a conflict
 
 Add this in your file `.bashrc`:
 
-    parse_git_branch() {
-         git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-    }
+```shell
+get_id() {
+  if [ -d .git ]; then
+    local name
+    local email
+    local branch
+    name=$(git config --local --get-all user.name)
+    email=$(git config --local --get-all user.email)
+    branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+    printf " [%s] %s > %s" "${name}" "${email}" "${branch}"
+  else
+    printf ""
+  fi;
+}
 
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]`parse_git_branch`\[\033[0m\]\$ '
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]`parse_git_branch`\[\033[0m\]\$ '
+```shell
 
 > The important point here is ``\[\033[01;33m\]`parse_git_branch`\[\033[0m\]``.
 >
