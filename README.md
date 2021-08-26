@@ -1133,8 +1133,7 @@ Put this function into your `~/.bashrc`.
 ```shell
 set_git_account() {
    if [ -d .git ]; then
-      local upstream_cmd1="git config remote.upstream.url \"git@domain.com:group1/repos.git\""
-      local upstream_cmd2="git config remote.upstream.fetch \"+refs/heads/*:refs/remotes/upstream/*\""
+      local upstream_cmd="git remote add upstream \"git@domain.com:group1/repos.git\""
 
       case "${1}" in
          account1)
@@ -1157,7 +1156,7 @@ set_git_account() {
 
       printf "Upstream configuration:\n"
       git config --get-regexp remote.upstream.*
-      printf "You may need to set upstream:\n  %s\n  %s\n" "${upstream_cmd1}" "${upstream_cmd2}"
+      printf "You may need to set upstream:\n  %s\n" "${upstream_cmd}"
    else
       printf "WARNING: your are not in a repository!\n"
    fi
