@@ -953,7 +953,8 @@ Add this in your file `.bashrc`:
 
 ```shell
 get_git_id() {
-  if [ -d .git ]; then
+  local status=$(git rev-parse --git-dir > /dev/null 2>&1; echo $?)
+  if [ "${status}" -eq "0" ]; then
     local name
     local email
     local branch
@@ -1164,5 +1165,79 @@ set_git_account() {
 
 ```
 
-Then you just need to execute `set_git_account <account>` from the command line to set the required configuration.
+Laurent,
 
+J'ai synchronisé le code de stamus post-processing (via `tests/sync.sh`).
+
+> J'ai rédigé une documentation sur le WIKI: https://git.stamus-networks.com/devel/stamus-processing/-/wikis/test-sn-pp-probe
+
+* J'ai vérifié la configuration `/etc/suricata/suricata.yaml`: les events sont envoyés par Suricata dans REDIS.
+* J'ai envoyé des PCAP via la sonde (`sudo ./sn-tcpreplay.sh`).
+
+> Tout est consigné dans [la documentation](https://git.stamus-networks.com/devel/stamus-processing/-/wikis/test-sn-pp-probe) mentionnée plus haut.
+
+Sur le SSP, je consulte le contenu de l'index `logstash-host_id`:
+
+```bash
+$ wget -O- -q --header='Content-Type: application/json' --post-data='{
+    "query": {"match_all": {}}
+}' 'elasticsearch:9200/logstash-host_id/_count?pretty' 
+```
+
+Résultat: 0
+
+Question: pourquoi ne vois-je pas les données envoyées ?
+
+
+
+
+
+
+sntp -S pool.ntp.org
+
+root@probe-denis:/var/log/suricata# tail -F eve-host_id-0.json
+
+root@probe-denis:/var/log/stamus-processing# tail -n 100 stamus-processing.log
+
+root@stamus:~# wget -O- -q --header='Content-Type: application/json' "elasticsearch:9200/_cat/indices?v&s=index" | egrep '\s+logstash-host_id-[0-9]{4}'
+
+
+https://git.stamus-networks.com/devel/scirius/-/blob/4850aa25d61d1457240c5bc23257a9cd953bb0fa/appliances/host_id.py#L677
+
+
+1. Reconnaître l'entrée agrégée dans logstash-host_id.
+2. Agréger pour mettre à jour la valeur du compteur.
+3. Envoie de "count" conditionné à la mise du SSP. Stocker le numéro de version du SSP dans le fichier de configuration de stamus-processing. Si pas de mise à jour du SSP => pas de numéro du SSP. Donc si pas de numéro de version => on désactive les compteurs.
+
+a. Ticket Scirius pour SSP pousse son numéro de version dans la configuration de stamus processing.
+b. Ticket pour mettre à jour l'algo dans Scirius.
+
+```
+global:
+  ssp_version: 38.0.0
+  counter_file: eve-post.json
+  hostname: probe-denis
+  see_id: 2239225db23f
+  see_name: scirius-enterprise
+  stats_dump_interval: 10
+```
+
+lxc exec scirius -- sudo /bin/bash
+
+
+
+
+```bash
+root@stamus:~# lxc-ls
+elasticsearch etl           evebox        kibana6       logstash      scirius       shellinabox   stamus
+root@stamus:~# lxc-info -iH -n scirius
+192.0.2.4
+root@stamus:~# ssh snuser@`sudo lxc-info -iH -n scirius`
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+root@stamus:~# find  / -name "celery" -type d | grep log
+/var/lib/lxc/scirius/rootfs/var/log/celery
+/var/lib/lxc/logstash/rootfs/var/log/celery
+````
