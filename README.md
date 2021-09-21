@@ -276,6 +276,14 @@ HEAD~3 4e3b991 message3
 HEAD~4 0386a8f message4
 ```
 
+Show history by author (use the option `--author=<author name>`):
+
+```shell
+git log --author=Denis --pretty=format:"%h %s"  
+```
+
+> See [this link](https://stackoverflow.com/questions/4259996/how-can-i-view-a-git-log-of-just-one-users-commits) for details.
+
 ### For another branch
 
 Just specify the name of the branch:
@@ -1111,11 +1119,21 @@ git branch --show-current
 
 ## Useful aliases
 
-```shell
-# git log <short>
-alias gls='git log --pretty=format:"%C(green)%h%C(Reset) %s"'
+Put these lines in your `.profile` (or `.bashrc`):
 
-# git log <short> with numeration
+```shell
+# git log short
+# Usage: gls [<author name>]
+# Note: <author name> can be just part of the real name (ex: the first name)
+gls() {
+   if [ -z "${1}" ]; then
+      git log --pretty=format:"%C(green)%h%C(Reset) %s"
+    else
+      git log --author="${1}" --pretty=format:"%C(green)%h%C(Reset) %s"
+   fi
+}
+
+# git log short with numeration
 alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR-1 \" \" \$s}"'
 ```
 
