@@ -979,7 +979,6 @@ commit 3959352cdef7d3b458c4278d859a79203f101e93
 
 ```shell
 origin=$(git config --get remote.origin.url)
-default_branch=$(git remote show "${origin}" | sed -n '/HEAD/s/.*: //p')
 git remote show "${origin}" | sed -n '/HEAD/s/.*: //p'
 ```
 
