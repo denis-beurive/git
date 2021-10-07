@@ -955,40 +955,76 @@ commit 3959352cdef7d3b458c4278d859a79203f101e93
 
 # GIT general tips
 
-## Add repository configuration to Bash prompt
+## Add repository configuration to Bash prompt + usefull commands
 
 Add this in your file `.bashrc`:
 
 ```shell
-git_check_repo_config() {
+
+git_help() {
+    # Print the list of custom commands.
+    declare -F | awk {'print $3'} | egrep '^git_'
+}
+
+git_conf_check() {
   # Check the confguration of the local repository.
-  local ORIGIN
-  local UPSTREAM
-  local ORIGIN_VALUE
-  local UPSTREAM_VALUE
+  local origin
+  local upstream
+  local origin_value
+  local upstream_value
 
-  ORIGIN=$(git config --get remote.origin.url)
-  UPSTREAM=$(git config --get remote.upstream.url)
+  origin=$(git config --get remote.origin.url)
+  upstream=$(git config --get remote.upstream.url)
 
-  if [ -z "${ORIGIN}" ]; then
+  if [ -z "${origin}" ]; then
       printf "WARNING: \"remote.origin.url\" is not configured!\n"
       return
   fi
 
-  if [ -z "${UPSTREAM}" ]; then
+  if [ -z "${upstream}" ]; then
       return
   fi
 
-  ORIGIN_VALUE=$(echo "${ORIGIN}" | sed --expression='s/^.*\/\([^\/]*\)$/\1/')
-  UPSTREAM_VALUE=$(echo "${UPSTREAM}" | sed --expression='s/^.*\/\([^\/]*\)$/\1/')
+  origin_value=$(echo "${origin}" | sed --expression='s/^.*\/\([^\/]*\)$/\1/')
+  upstream_value=$(echo "${upstream}" | sed --expression='s/^.*\/\([^\/]*\)$/\1/')
 
-  if [ "${ORIGIN_VALUE}" != "${UPSTREAM_VALUE}" ]; then
-      printf "ERROR: \"remote.origin.url\" (%s) and \"remote.upstream.url\" (%s) mismatch!\n" "${ORIGIN_VALUE}" "${UPSTREAM_VALUE}"
+  if [ "${origin_value}" != "${upstream_value}" ]; then
+      printf "ERROR: \"remote.origin.url\" (%s) and \"remote.upstream.url\" (%s) mismatch!\n" "${origin_value}" "${upstream_value}"
       return
+  fi
+
+  return
+}
+
+git_conf_print() {
+  # Print the local repository cionfiguration.
+  local origin
+  local upstream
+  local name
+  local email
+  local branch
+  local status
+
+  name=$(git config user.name)
+  email=$(git config user.email)
+  branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+  origin=$(git config --get remote.origin.url)
+  upstream=$(git config --get remote.upstream.url)
+  status=$(git_conf_check)
+
+  printf "Git configuration:\n\n"
+  printf "USER:     \"%s\"\n" "${name}"
+  printf "EMAIL:    \"%s\"\n" "${email}"
+  printf "BRANCH:   \"%s\"\n" "${branch}"
+  printf "ORIGIN:   \"%s\"\n" "${origin}"
+  printf "UPSTREAM: \"%s\"\n" "${upstream}"
+
+  if [ -z "${status}" ]; then
+     printf "\n%s\n" "${status}"
   fi
 }
 
-get_git_id() {
+git_get_id() {
   local status=$(git rev-parse --git-dir > /dev/null 2>&1; echo $?)
   if [ "${status}" -eq "0" ]; then
     local name
@@ -1001,10 +1037,11 @@ get_git_id() {
     email=$(git config user.email)
     branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
     origin=$(git config remote.origin.url)
-    status=$(git_check_repo_config)
+
+    status=$(git_conf_check)
     if [ -z "${status}" ]; then
        printf "\nname:   [%s]\nemail:  [%s]\norigin: [%s]\nbranch: [%s]" "${name}" "${email}" "${origin}" "${branch}"
-    else
+    else 
        printf "\nname:   [%s]\nemail:  [%s]\norigin: [%s]\nbranch: [%s]\n\n%s" "${name}" "${email}" "${origin}" "${branch}" "${status}"
     fi
   else
@@ -1012,7 +1049,11 @@ get_git_id() {
   fi;
 }
 
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;33m\]`get_git_id`\[\033[0m\]\$ '
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;93m\]`git_get_id`\[\033[0m\]\$ ' 
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
 ```
 
 Result:
@@ -1185,7 +1226,7 @@ You are on a branch. You made a lot of modifications. And you want to create a n
 Put this function into your `~/.bashrc`.
 
 ```shell
-set_git_account() {
+git_set_account() {
    if [ -d .git ]; then
       local upstream_cmd="git remote add upstream \"git@domain.com:group1/repos.git\""
 
