@@ -1273,7 +1273,7 @@ git_set_target() {
    git config user.email "email@target.com" 
    git config user.name "Your Name"
    if [ -z "${upstream}"]; then
-        printf "WARNING: upstream is not configured! You should execute!\n\n"
+        printf "WARNING: upstream is not configured! You should execute:\n\n"
         printf "git config remote.upstream.url \"git@git.target.com:devel/%s\"\n" "${origin_value}"
         printf "git config remote.upstream.fetch \"+refs/heads/*:refs/remotes/upstream/*\"\n\n"
    else
