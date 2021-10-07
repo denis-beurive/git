@@ -976,7 +976,6 @@ git_check_repo_config() {
   fi
 
   if [ -z "${UPSTREAM}" ]; then
-      # printf "WARNING: \"remote.upstream.url\" is not configured!"
       return
   fi
 
@@ -984,11 +983,9 @@ git_check_repo_config() {
   UPSTREAM_VALUE=$(echo "${UPSTREAM}" | sed --expression='s/^.*\/\([^\/]*\)$/\1/')
 
   if [ "${ORIGIN_VALUE}" != "${UPSTREAM_VALUE}" ]; then
-      printf "ERROR: \"remote.origin.url\" (${ORIGIN_VALUE}) and \"remote.upstream.url\" (${UPSTREAM_VALUE}) mismatch!\n"
+      printf "ERROR: \"remote.origin.url\" (%s) and \"remote.upstream.url\" (%s) mismatch!\n" "${ORIGIN_VALUE}" "${UPSTREAM_VALUE}"
       return
   fi
-
-  return
 }
 
 get_git_id() {
@@ -1004,7 +1001,6 @@ get_git_id() {
     email=$(git config user.email)
     branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
     origin=$(git config remote.origin.url)
-
     status=$(git_check_repo_config)
     if [ -z "${status}" ]; then
        printf "\nname:   [%s]\nemail:  [%s]\norigin: [%s]\nbranch: [%s]" "${name}" "${email}" "${origin}" "${branch}"
