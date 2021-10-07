@@ -844,8 +844,10 @@ If you want to update you local branch from "upstream" (the _official project re
 ```shell
 git checkout master
 git fetch upstream
-git pull upstream master
+git pull --rebase upstream master
 ```
+
+> You may specify another option than `--rebase` (`--no-rebase` or `--ff-only`).
 
 > You can also override your local branch: `git reset --hard upstream/master` (see [here](https://stackoverflow.com/questions/15432052/what-is-the-meaning-of-git-reset-hard-origin-master/15432250))
 
