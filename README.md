@@ -976,7 +976,7 @@ git_check_repo_config() {
   fi
 
   if [ -z "${UPSTREAM}" ]; then
-      printf "WARNING: \"remote.upstream.url\" is not configured!"
+      # printf "WARNING: \"remote.upstream.url\" is not configured!"
       return
   fi
 
