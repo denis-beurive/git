@@ -847,6 +847,12 @@ git fetch upstream
 git pull --rebase upstream master
 ```
 
+or (quick _copy/paste_):
+
+```shell
+git checkout master && git fetch upstream && git pull --rebase upstream master && echo "SUCCESS"
+```
+
 > You may specify another option than `--rebase` (`--no-rebase` or `--ff-only`).
 
 > You can also override your local branch: `git reset --hard upstream/master` (see [here](https://stackoverflow.com/questions/15432052/what-is-the-meaning-of-git-reset-hard-origin-master/15432250))
