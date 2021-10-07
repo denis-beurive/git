@@ -960,6 +960,37 @@ commit 3959352cdef7d3b458c4278d859a79203f101e93
 Add this in your file `.bashrc`:
 
 ```shell
+git_check_repo_config() {
+  # Check the confguration of the local repository.
+  local ORIGIN
+  local UPSTREAM
+  local ORIGIN_VALUE
+  local UPSTREAM_VALUE
+
+  ORIGIN=$(git config --get remote.origin.url)
+  UPSTREAM=$(git config --get remote.upstream.url)
+
+  if [ -z "${ORIGIN}" ]; then
+      printf "WARNING: \"remote.origin.url\" is not configured!\n"
+      return
+  fi
+
+  if [ -z "${UPSTREAM}" ]; then
+      printf "WARNING: \"remote.upstream.url\" is not configured!"
+      return
+  fi
+
+  ORIGIN_VALUE=$(echo "${ORIGIN}" | sed --expression='s/^.*\/\([^\/]*\)$/\1/')
+  UPSTREAM_VALUE=$(echo "${UPSTREAM}" | sed --expression='s/^.*\/\([^\/]*\)$/\1/')
+
+  if [ "${ORIGIN_VALUE}" != "${UPSTREAM_VALUE}" ]; then
+      printf "ERROR: \"remote.origin.url\" (${ORIGIN_VALUE}) and \"remote.upstream.url\" (${UPSTREAM_VALUE}) mismatch!\n"
+      return
+  fi
+
+  return
+}
+
 get_git_id() {
   local status=$(git rev-parse --git-dir > /dev/null 2>&1; echo $?)
   if [ "${status}" -eq "0" ]; then
@@ -967,11 +998,19 @@ get_git_id() {
     local email
     local branch
     local origin
+    local status
+
     name=$(git config user.name)
     email=$(git config user.email)
     branch=$(git branch | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
     origin=$(git config remote.origin.url)
-    printf "\nname:   [%s]\nemail:  [%s]\norigin: [%s]\nbranch: [%s]" "${name}" "${email}" "${origin}" "${branch}"
+
+    status=$(git_check_repo_config)
+    if [ -z "${status}" ]; then
+       printf "\nname:   [%s]\nemail:  [%s]\norigin: [%s]\nbranch: [%s]" "${name}" "${email}" "${origin}" "${branch}"
+    else
+       printf "\nname:   [%s]\nemail:  [%s]\norigin: [%s]\nbranch: [%s]\n\n%s" "${name}" "${email}" "${origin}" "${branch}" "${status}"
+    fi
   else
     printf ""
   fi;
