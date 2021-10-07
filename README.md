@@ -1256,6 +1256,29 @@ git_set_account() {
       printf "WARNING: your are not in a repository!\n"
    fi
 }
+```
 
+The following code may be used as base for specific configuration:
+
+
+```shell
+git_set_target() {
+   local upstream
+   local origin
+   local origin_value
+
+   upstream=$(git config --get remote.upstream.url)
+   origin=$(git config --get remote.origin.url)
+   origin_value=$(echo "${origin}" | sed --expression='s/^.*\/\([^\/]*\)$/\1/')
+   git config user.email "email@target.com" 
+   git config user.name "Your Name"
+   if [ -z "${upstream}"]; then
+        printf "WARNING: upstream is not configured! You should execute!\n\n"
+        printf "git config remote.upstream.url \"git@git.target.com:devel/%s\"\n" "${origin_value}"
+        printf "git config remote.upstream.fetch \"+refs/heads/*:refs/remotes/upstream/*\"\n\n"
+   else
+        git config --get-regexp remote.upstream.*
+   fi
+}
 ```
 
