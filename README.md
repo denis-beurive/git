@@ -975,6 +975,14 @@ commit 3959352cdef7d3b458c4278d859a79203f101e93
 
 # GIT general tips
 
+## What is the default branch ?
+
+```shell
+origin=$(git config --get remote.origin.url)
+default_branch=$(git remote show "${origin}" | sed -n '/HEAD/s/.*: //p')
+git remote show "${origin}" | sed -n '/HEAD/s/.*: //p'
+```
+
 ## Add repository configuration to Bash prompt + usefull commands
 
 Add this in your file `.bashrc`:
@@ -1024,6 +1032,7 @@ git_conf_print() {
   local email
   local branch
   local status
+  local default_branch
 
   name=$(git config user.name)
   email=$(git config user.email)
@@ -1031,11 +1040,12 @@ git_conf_print() {
   origin=$(git config --get remote.origin.url)
   upstream=$(git config --get remote.upstream.url)
   status=$(git_conf_check)
+  default_branch=$(git remote show "${origin}" | sed -n '/HEAD/s/.*: //p')
 
   printf "Git configuration:\n\n"
   printf "USER:     \"%s\"\n" "${name}"
   printf "EMAIL:    \"%s\"\n" "${email}"
-  printf "BRANCH:   \"%s\"\n" "${branch}"
+  printf "BRANCH:   \"%s\" (default: \"%s\")\n" "${branch}" "${default_branch}"
   printf "ORIGIN:   \"%s\"\n" "${origin}"
   printf "UPSTREAM: \"%s\"\n" "${upstream}"
 
