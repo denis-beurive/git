@@ -842,15 +842,17 @@ git config --get-regexp remote.upstream.*
 If you want to update you local branch from "upstream" (the _official project repository_ that you forked):
 
 ```shell
-git checkout master
+BRANCH="master"
+git checkout "${BRANCH}"
 git fetch upstream
-git pull --rebase upstream master
+git pull --rebase upstream "${BRANCH}"
 ```
 
 or (quick _copy/paste_):
 
 ```shell
-git checkout master && git fetch upstream && git pull --rebase upstream master && echo "SUCCESS"
+BRANCH="master"
+git checkout "${BRANCH}" && git fetch upstream && git pull --rebase upstream "${BRANCH}" && echo "SUCCESS"
 ```
 
 > You may specify another option than `--rebase` (`--no-rebase` or `--ff-only`).
@@ -859,9 +861,19 @@ git checkout master && git fetch upstream && git pull --rebase upstream master &
 
 Now, you can push the downloaded modifications to your distant forked repository:
 
-    git push origin master
+```shell
+BRANCH="master"
+git push origin "${BRANCH}"
+```
 
 Now, your _forked project repository_ is synchronized with the _official project repository_.
+
+All in one command:
+
+```shell
+BRANCH="master";
+git checkout "${BRANCH}" && git fetch upstream && git pull --rebase upstream "${BRANCH}" && git push origin "${BRANCH}" && echo "SUCCESS"
+```
 
 # Reading git conflict. What is "yours" and "theirs" ?
 
