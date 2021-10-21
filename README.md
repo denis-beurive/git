@@ -919,7 +919,8 @@ Thus:
 
 | Do                                                       | Undo                                          | Note                                             | Examples                         |
 |----------------------------------------------------------|-----------------------------------------------|--------------------------------------------------|----------------------------------|
-| `git add <file>`                                         | `git reset <file>`                            |                                                  |                                  |
+| `git add <file>`                                         | `git reset <file>`                            | Unstage a single file                            |                                  |
+| `git add --all`                                          | `git reset`                                   | Unstage all staged files                         |                                  |
 | `git commit`                                             | `git commit --amend`                          | Change message for the last commit only          |                                  |
 | `git commit`                                             | `git reset --soft HEAD~1`                     | Undo last commit, but preserve changes           |                                  |
 | `git commit`                                             | `git reset --hard HEAD~1`                     | Undo last commit, but **discard changes**!       |                                  |
@@ -1146,6 +1147,8 @@ diff <(git log --pretty=format:"%h %ai <%an> %s" ${BRANCH1}) <(git log --pretty=
 
 ## Show what has been done to files on a specific commit
 
+The command below only shows created/renamed/deleted files:
+
 ```shell
 $ git show 3959352 --summary
 commit 3959352cdef7d3b458c4278d859a79203f101e93
@@ -1165,6 +1168,12 @@ Date:   Fri May 28 17:57:27 2021 +0200
 ```
 
 > The line `rename postproc/{file4.py => file5.py} (57%)` indicates that a file has been **split**. **You should be VERY careful**: you cannot rely on GIT to show you what changed between the two commits! You must look at the code very carefully.
+
+The command below shows modified files between 2 commits:
+
+```shell
+git diff --name-only HEAD~6 HEAD~7
+```
 
 ## Print all commits that modified a specific file
 
