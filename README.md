@@ -1320,3 +1320,12 @@ git_set_target() {
 }
 ```
 
+## using SublimMerge (Build 2059)
+
+### Compare 2 commits
+
+![](images/sublim-merge-diff-commits.png)
+
+> See [this post](https://forum.sublimetext.com/t/diff-view-indicate-whats-on-the-left-and-whats-on-the-right/59211/5), and [this feature request](https://github.com/sublimehq/sublime_merge/issues/548).
+
+
