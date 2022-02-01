@@ -90,6 +90,8 @@ Print the list of loaded private keys:
 * Default installation directory: `"%PROGRAMFILES(X86)%\OpenSSH"`
 * Path to the SSH configuration files: `"%HOMEPATH%/.ssh"`
 
+> Useful [link](https://www.thewindowsclub.com/system-user-environment-variables-windows) for Windows environment variables.
+
 # Configuring a repository
 
 ```shell
