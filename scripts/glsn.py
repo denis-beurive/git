@@ -7,6 +7,7 @@ exit_code = process.wait()
 
 if exit_code != 0:
     print('An error occurred while executing the following command: {}'.format(' '.join(cmd)))
+    exit(1)
 
 text: list[str] = list(map(lambda x: x.strip("\""), out.decode().split("\n")))
 hash_max: int = len(text) - 1
