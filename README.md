@@ -1263,7 +1263,7 @@ alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR-1 \" \" \
 
 ### Windows (MS-DOS)
 
-File `gls.bat`:
+File [gls.bat](scripts/gls.bat):
 
 ```
 @echo off
@@ -1281,6 +1281,18 @@ if "%author%" == "" (
     git log --author="%author%" --pretty=format:"%%C(green)%%h%%C(Reset) %%s"
 )
 ```
+
+file [glsn.bat](scripts/glsn.bat):
+
+```
+@echo off
+
+set PATH_TO_GLSN_PY="C:\Users\Denis BEURIVE\Documents\github\git\scripts\glsn.py"
+
+python %PATH_TO_GLSN_PY%
+```
+
+> This use the Python3 scrip [glsn.py](scripts/glsn.py).
 
 ## Create a new branch from a branch that has uncommitted changes
 
