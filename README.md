@@ -1199,9 +1199,19 @@ You can also print the kind of modification that affected the file (use option `
 
     git diff --name-only <commit sha1> [<commit sha2>]
 
+> If you are interested in the modifications that tool place in the last commit only: `git diff --name-only HEAD HEAD~1`
+
 And, if you want to get the kind of modification that affected the files:
 
     git diff --name-status <commit sha1> [<commit sha2>]
+	
+## Print the changed made to a file in the staged area
+
+	git diff --staged <file>
+
+or 
+
+	git diff HEAD <file>
 
 ## Print the files in conflict
 
