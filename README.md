@@ -1412,7 +1412,7 @@ if "%commit%" == "" (
 )
 ```
 
-Print help for aliases:
+Print help for aliases (file [gh.bat](scripts/gh.bat)):
 
 ```
 @echo off
