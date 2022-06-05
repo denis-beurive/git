@@ -4,7 +4,7 @@
 	       <=> change the base
 	       <=> set a new "parent" (inherit from another branch)
 
-### First form: git rebase \<new parent\>
+## First form: git rebase \<new parent\>
 
 We have to branches:
 * `master`
@@ -78,7 +78,7 @@ The histories are now:
 | 9e31a77 First import                      | 9e31a77 First import                       |
 | 87d762b initial commit                    | 87d762b initial commit    
 
-### Second form: git rebase \<new parent\> \<branch\>
+## Second form: git rebase \<new parent\> \<branch\>
 
 > This form is equivalent to the first one (`git rebase <new parent>`) if you are on branch `branch`.
 
@@ -129,7 +129,6 @@ The histores are now:
 | 6c99621 Document init_matrix()            | 6c99621 Document init_matrix()             |
 | 9e31a77 First import                      | 9e31a77 First import                       |
 | 87d762b initial commit                    | 87d762b initial commit                     |
-
 
 ## Git rebase --onto
 
@@ -245,3 +244,29 @@ Create a new branch:
 	9e31a77 First import
 	87d762b initial commit
 
+## Vocalulary: what is "your modifications" ? what is "their modifications"
+
+We do:
+
+    git checkout their-modifications-branch
+    git rebase your-modifications-branch
+
+**Vocabulary**: we say that `their-modifications-branch` is _rebased onto_ `your-modifications-branch` ([source](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)).
+
+> * we are on `their-modifications-branch`.
+> * We modify `their-modifications-branch`.
+> * `HEAD` _always_ refers to a commit _coming from_ `your-modifications-branch`.
+>
+> The names of the branches in this example are not necessarily appropriate, relatively to the context.
+> That is, depending on _who_ is doing the _rebase_ (relatively to the modifications author).
+> That's why it can be confusing.
+
+Thus:
+
+    <<<<<<< HEAD:...
+    Your modifications.
+    =======
+    Their modifications.
+    >>>>>>> 3959352...
+
+![](images/git-rebase-conflict.png)
