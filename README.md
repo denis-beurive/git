@@ -1316,6 +1316,14 @@ gs-status() {
 
 # git log short with numeration
 alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR-1 \" \" \$s}"'
+
+gh() {
+    echo "gls [<author>]        - print short log"
+    echo "glsn [<author>]       - print short log using \"HEAD\""
+    echo "gls-files [<author>]  - print short log with impacted files"
+    echo "gls-track <file>      - print short log related to a given file"
+    echo "gs-status <commit>    - print files modifications during a given commit"
+}
 ```
 
 ### Windows (MS-DOS)
@@ -1402,6 +1410,18 @@ if "%commit%" == "" (
 ) else (
     git show --pretty="" --name-status %commit%
 )
+```
+
+Print help for aliases:
+
+```
+@echo off
+
+echo gls [^<author^>]        - print short log
+echo glsn [^<author^>]       - print short log using "HEAD"
+echo gls-files [^<author^>]  - print short log with impacted files
+echo gls-track ^<file^>      - print short log related to a given file
+echo gs-status ^<commit^>    - print files modifications during a given commit
 ```
 
 ## Create a new branch from a branch that has uncommitted changes
