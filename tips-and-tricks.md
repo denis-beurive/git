@@ -218,6 +218,18 @@ git commit --allow-empty -m "initial commit"
 >
 > Git represents branches as pointers to the latest commit in that branch. If you haven't created a commit yet, there's nothing for that branch to point to. So you can't really create branches until you have at least one commit [source](https://stackoverflow.com/questions/5678699/creating-branches-on-an-empty-project-in-git/5678812).
 
+## Print the changed made to a file in the staged area
+
+```shell
+git diff --staged <file>
+```
+
+or 
+
+```shell
+  git diff HEAD <file>
+```
+
 ## Use of --procelain
 
 ### Add all modified files to the staging area
@@ -249,5 +261,4 @@ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($
 ```shell
 git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *D /) { next; }; $_ =~ s/^ *D //; push(@lines, $_); } print join(" ", @lines);' > delete.sh
 ```
-
 

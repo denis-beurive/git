@@ -19,34 +19,3 @@
 * [Tips and tricks](tips-and-tricks.md)
 * [Aliases](aliases.md)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
