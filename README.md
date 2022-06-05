@@ -568,12 +568,28 @@ index 0000000..e69de29
 
 If you are just interested by the files associated with a commit:
 
-    git show --pretty="" --name-only <commit SHA>
- 
-If you need to show the last commit:
+```shell
+git show --pretty="" --name-only <commit SHA>
+```
+
+If you want to print files status for a specific commit:
 
 ```shell
-git show HEAD
+$ git show --name-status HEAD
+commit 88c299a1c75449de56ec774e2d74da118822bf37 (HEAD -> test)
+Author: BEURIVE Denis <dbeurive@idf.fr>
+Date:   Sun Jun 5 09:54:08 2022 +0200
+
+    deleted file
+
+D       install/install_v2.10.0.sql
+```
+
+or (that could be interisting if you need to parse the output):
+
+```shell
+$ git show --pretty="" --name-status HEAD
+D       install/install_v2.10.0.sql
 ```
 
 ## Checkout a specific commit
@@ -1267,6 +1283,37 @@ gls() {
    fi
 }
 
+# git log short with list of impacted files
+# Usage: gls-files [<author name>]
+# Note: <author name> can be just part of the real name (ex: the first name)
+gls-files() {
+   if [ -z "${1}" ]; then
+      git log --pretty=format:"%C(green)%h%C(Reset) %s" --name-only
+    else
+      git log --author="${1}" --pretty=format:"%C(green)%h%C(Reset) %s" --name-only
+   fi
+}
+
+# git log short that tracks all logs that affected a given file
+# Usage: gls-track <file path>
+gls-track() {
+   if [ -z "${1}" ]; then
+      echo "Argument <file> missing"
+    else
+      git log --follow --pretty=format:"%C(green)%h%C(Reset) %s" -- "${1}"
+   fi
+}
+
+# show files status for a specified commit.
+# Usage: gs-status <commit id>
+gs-status() {
+   if [ -z "${1}" ]; then
+      echo "Argument <commit> missing"
+    else
+      git show --pretty="" --name-status "${1}"
+   fi
+}
+
 # git log short with numeration
 alias glsn='git log --pretty=format:"%h %s" | awk "{print \"HEAD~\" NR-1 \" \" \$s}"'
 ```
@@ -1303,6 +1350,59 @@ python %PATH_TO_GLSN_PY%
 ```
 
 > This use the Python3 scrip [glsn.py](scripts/glsn.py).
+
+File [gls-files.bat](scripts/gls-files.bat):
+
+```
+@echo off
+
+REM git log short with files names
+REM Usage: gls-files [<author name>]
+REM Note: <author name> can be just part of the real name (ex: the first name)
+
+set author=%~1
+
+if "%author%" == "" (
+    git log --pretty=format:"%%C(green)%%h%%C(Reset) %%s" --name-only
+) else (
+    echo %author%
+    git log --author="%author%" --pretty=format:"%%C(green)%%h%%C(Reset) %%s"  --name-only
+)
+```
+
+File [gls-track.bat](scripts/gls-track.bat):
+
+```
+@echo off
+
+REM git log short that tracks all logs that affected a given file
+REM Usage: gls-track <file path>
+
+set file=%~1
+
+if "%file%" == "" (
+    echo Argument "file" missing
+) else (
+    git log --follow --pretty=format:"%%C(green)%%h%%C(Reset) %%s" -- %file%
+)
+```
+
+File [gs-status.bat](scripts/gs-status.bat):
+
+```
+@echo off
+
+REM show files status for a specified commit.
+REM Usage: gs-status <commit id>
+
+set commit=%~1
+
+if "%commit%" == "" (
+    echo Argument "commit" missing
+) else (
+    git show --pretty="" --name-status %commit%
+)
+```
 
 ## Create a new branch from a branch that has uncommitted changes
 
