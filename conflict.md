@@ -43,3 +43,17 @@ In a nutshell:
 ```shell
 git diff --name-only --diff-filter=U
 ```
+
+> For the list of values for the option "--dif-only": [--dif-only values](https://stackoverflow.com/questions/6879501/filter-git-diff-by-type-of-change)
+>
+> * A Added
+> * C Copied
+> * D Deleted
+> * M Modified
+> * R Renamed
+> * T have their type (mode) changed
+> * U Unmerged
+> * X Unknown
+> * B have had their pairing Broken
+> * * All-or-none
+
