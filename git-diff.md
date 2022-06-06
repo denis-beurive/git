@@ -41,4 +41,4 @@ git diff --name-only --diff-filter=M <commit sha1> [<commit sha2>]
 > * U Unmerged
 > * X Unknown
 > * B have had their pairing Broken
-> * * All-or-none
+> * \* All-or-none

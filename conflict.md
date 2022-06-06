@@ -55,5 +55,5 @@ git diff --name-only --diff-filter=U
 > * U Unmerged
 > * X Unknown
 > * B have had their pairing Broken
-> * * All-or-none
+> * \* All-or-none
 

@@ -6,7 +6,7 @@
 * [Git configuration](git-conf.md)
 * [Troubleshooting](troubleshooting.md)
 * [Git log](git-log.md)
-* [Get diff](git-diff.md)
+* [Git diff](git-diff.md)
 * [Git show](git-show.md)
 * [Git rebase](git-rebase.md)
 * [Conflicts management](conflict.md)
