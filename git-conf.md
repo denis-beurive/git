@@ -36,12 +36,22 @@ git config --global core.editor "/usr/bin/subl -n -w"
 
 ## Use custom diff visualizer
 
-    git difftool -y -x sdiff 4f706f8 af61421 file.py
+```shell
+git difftool -y -x sdiff 4f706f8 af61421 file.py
+```
 
-    git difftool -y --tool=vimdiff 4f706f8 af61421 file.py
+```shell
+git difftool -y --tool=vimdiff 4f706f8 af61421 file.py
+```
 
-    git difftool -y --tool=meld 4f706f8 af61421 file.py
+```shell
+git difftool -y --tool=meld 4f706f8 af61421 file.py
+```
 
 Or you can use a _sublime_ tool: [sublim merge](https://www.sublimemerge.com/docs/faq#diffing_between_commits) (highly recommanded!)
 
+Global configuration:
 
+```shell
+git config --global diff.tool meld
+```
