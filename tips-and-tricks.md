@@ -227,7 +227,7 @@ git diff --staged <file>
 or 
 
 ```shell
-  git diff HEAD <file>
+git diff HEAD <file>
 ```
 
 ## Use of --procelain

@@ -1,5 +1,9 @@
 # Git diff
 
+## Reading the command output
+
+See [this example](examples/git-diff-manip.md).
+
 ## Print the changed applied to a specific commit
 
 ```shell
