@@ -55,7 +55,7 @@ Explanation:
 * `+++ b/file.txt`: in a chunk, the lines related to the file at commit `HEAD~2` will be marked by the character "`+`".
 * `@@ -1 +1,2 @@`: this is the header (of the chunk) => `@@ -<first line>,<number of lines printed> +<first line>,<number of lines printed>`
    * `-1` starts with `-`, so this data is related to the the file at commit `HEAD~3`.
-   `-1` is equivalent to `-1,1`. It means that one line of the file (at commit `HEAD~3`), staring at the first line, is printed. That is: only the first line of the file is printed.
+   `-1` is equivalent to `-1,1`. It means that one line of the file (at commit `HEAD~3`), starting at the first line, is printed. That is: only the first line of the file is printed.
    * `+1,2`: starts with `+`, so this data is related to the the file at commit `HEAD~2`. It means that 2 lines of the file (at commit `HEAD~2`), starting at the first line, is printed. That is: lines 1 and 2 are printed.
 
 > **WARNING**: the signs "`-`" and "`+`" must not be interpreted as "removed" and "added". Within a chunk, these signs just identify the file data are related to.
