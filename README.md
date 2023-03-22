@@ -19,3 +19,6 @@
 * [Tips and tricks](tips-and-tricks.md)
 * [Aliases](aliases.md)
 
+Useful links:
+
+* [MD languages keywords](https://github.com/github/linguist/blob/master/lib/linguist/languages.yml)
