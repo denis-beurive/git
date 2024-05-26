@@ -10,7 +10,7 @@
 
 See: [Starting ssh-agent on Windows 10 fails: "unable to start ssh-agent service, error :1058"](https://stackoverflow.com/questions/52113738/starting-ssh-agent-on-windows-10-fails-unable-to-start-ssh-agent-service-erro)
 
-Run PowerShell has administrator.
+Run PowerShell as administrator.
 
 ```
 Get-Service -Name ssh-agent | Set-Service -StartupType Manual
