@@ -12,13 +12,10 @@ See: [Starting ssh-agent on Windows 10 fails: "unable to start ssh-agent service
 
 Run PowerShell as administrator.
 
-```
-Get-Service -Name ssh-agent | Set-Service -StartupType Manual
-```
+	Get-Service -Name ssh-agent | Set-Service -StartupType Manual
 
 Then, to start the SSH agent:
 
-```
-Start-Service ssh-agent
-```
+	Start-Service ssh-agent
+	Get-Service ssh-agent
 

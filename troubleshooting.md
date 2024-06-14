@@ -39,4 +39,19 @@ Please note that the important points are:
 * `git config user.name...` and `git config user.email...`
 * `git config --local credential.helper ""`
 
+## If PUSH hangs under Windows
+
+Make sure that `ssh-agent` is running:
+
+	Get-Service ssh-agent
+
+If it is not running, then open PowerShell as administrator:
+
+	Get-Service ssh-agent | Set-Service -StartupType Automatic
+	Start-Service ssh-agent
+	Get-Service ssh-agent
+
+## If you have: "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!"
+
+	rm ~/.ssh/known_hosts
 

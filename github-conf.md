@@ -45,12 +45,12 @@ This way, when the SSH client opens a connexion to the host `github.com`, using 
 Run the command below:
 
 ```shell
-$ ssh -T git@personal.github.com
+$ ssh -v -T git@personal.github.com
 Hi your-login-1! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
 ```shell
-$ ssh -T git@profesional.github.com
+$ ssh -v -T git@profesional.github.com
 Hi your-login-2! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
