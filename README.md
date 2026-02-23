@@ -3,6 +3,7 @@
 * [Configuring SSH for two GitHub users](github-conf.md)
 * [Note about OpenSSH and Windows (10/11)](open-ssh-win.md)
 * [Configuring a repository](repo-conf.md)
+* [Notations](notations.md)
 * [Git configuration](git-conf.md)
 * [Troubleshooting](troubleshooting.md)
 * [Git log](git-log.md)
