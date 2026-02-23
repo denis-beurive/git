@@ -4,20 +4,21 @@
 
 Let's consider the command below:
 
-    git diff <left> <rigth>
+    git diff <left> [<rigth>]
+
+> * `<left>` and `<right>` represent **commits**.
+> * By default, if `<right>` is not specified, then `<right>` is `HEAD` (see [notations](notations.md)).
 
 It prints:
 
 > What should be done to pass from  `<left>` to `<right>`.
 
-By default, if `<right>` is not specified, then `<right>` is `HEAD`.
-
 Notations:
 
 * `--- a/file`: the content of `<left>`.
 * `+++ b/file`: the content of `<right>`.
-* `-`: what we remove from `<left>`.
-* `+`: what we add to `<left>` in order to obtain `<right>`.
+* `-`: what we remove from `<left>` (in order to obtain `<right>`).
+* `+`: what we add to `<left>` (in order to obtain `<right>`).
 
 See [this example](examples/git-diff-manip.md).
 
