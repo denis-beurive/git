@@ -285,3 +285,9 @@ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($
 git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($_ =~ m/^ *D /) { next; }; $_ =~ s/^ *D //; push(@lines, $_); } print join(" ", @lines);' > delete.sh
 ```
 
+## Make a file executable
+
+```shell
+git update-index --chmod=+x setup.sh
+git commit -m "Make setup.sh executable"
+```
