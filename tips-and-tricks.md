@@ -291,3 +291,11 @@ git status --porcelain | perl -e '@lines = (); while (<STDIN>) { chomp; unless($
 git update-index --chmod=+x setup.sh
 git commit -m "Make setup.sh executable"
 ```
+
+And if tou want to get the list of executable files:
+
+```
+git log --all --summary --pretty=format: | findstr /R /C:"mode change 100644 => 100755" /C:"create mode 100755"
+```
+
+
