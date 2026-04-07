@@ -298,4 +298,13 @@ And if tou want to get the list of executable files:
 git log --all --summary --pretty=format: | findstr /R /C:"mode change 100644 => 100755" /C:"create mode 100755"
 ```
 
+## Set End Of Line for text files
+
+File `.gitattributes`:
+
+```
+*.bat text eol=crlf
+*.sh  text eol=lf
+*.py  text eol=lf
+```
 
