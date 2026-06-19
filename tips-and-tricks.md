@@ -308,3 +308,14 @@ File `.gitattributes`:
 *.py  text eol=lf
 ```
 
+### Reinitialise the whole history
+
+```
+git checkout --orphan new-master
+git add -A
+git commit -m "first import"
+
+git branch -D master
+git branch -m master
+git push --force origin master
+```
